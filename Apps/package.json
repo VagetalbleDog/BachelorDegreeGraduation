@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "author": "zhuwenfu <zhuwenfu@kuaishou.com>",
+  "scripts": {
+    "website:dev": "cd packages/website && pnpm dev",
+    "backend:dev": "cd packages/backend && pnpm start",
+    "start:dev":"concurrently \"pnpm run website:dev\" \"pnpm run backend:dev\"",
+    "start": "pnpm --parallel -F './packages/*' start"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "antd": "^5.2.3",
+    "concurrently": "^7.6.0",
+    "umi": "^4.0.55"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^4.1.2"
+  }
+}
