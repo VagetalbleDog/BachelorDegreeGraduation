@@ -1,8 +1,8 @@
 import { FC, useState } from "react";
-import styles from "./index.module.less";
 import icon from "@/assets/icon.png";
-import avatar from "@/assets/yay.jpg";
+import styles from "./index.module.less";
 import slogan from "@/assets/slogan.png";
+
 import { BellFilled, BellOutlined } from "@ant-design/icons";
 import { Button, Input, Menu } from "antd";
 
