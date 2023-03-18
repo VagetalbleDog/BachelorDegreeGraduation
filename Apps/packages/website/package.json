@@ -7,7 +7,7 @@
     "postinstall": "umi setup",
     "setup": "umi setup",
     "start": "npm run dev",
-    "swagger": "npx swagger-typescript-api -p ../backend/api-doc.json -o ./src -n myApi.ts"
+    "swagger": "node generate.js"
   },
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
