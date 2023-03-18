@@ -3,16 +3,16 @@ import { ApiQuery, ApiTags } from "@nestjs/swagger";
 import { ArticleService } from "./article.service";
 
 @Controller("article")
-@ApiTags("文章模块")
+@ApiTags("Article")
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
   @Get()
   @HttpCode(200)
-  @ApiQuery({ name: "id", required: false, description: "根据id查询文章" })
+  @ApiQuery({ name: "id", required: false, description: "query by id" })
   @ApiQuery({
     name: "category",
     required: false,
-    description: "根据文章分类查询文章",
+    description: "query by category",
   })
   /**
    * 精准匹配
@@ -20,7 +20,7 @@ export class ArticleController {
   findAll(@Query() query) {
     return this.articleService.find(query);
   }
-  @Get()
+  @Get("/search")
   @HttpCode(200)
   @ApiQuery({ name: "title", required: false, description: "文章标题搜索" })
   /**
@@ -29,13 +29,12 @@ export class ArticleController {
   searchByTitle(@Query() { title }) {
     return this.articleService.find("s");
   }
-  @Get()
-  @HttpCode(200)
-  @ApiQuery({ name: "id", required: false, description: "根据id查询文章" })
-  /**
-   * 内容模糊匹配
-   */
-  searchByContent(@Query() { content }) {
-    return this.articleService.find({ content });
-  }
+  // @Get()
+  // @HttpCode(200)
+  // /**
+  //  * 内容模糊匹配
+  //  */
+  // searchByContent(@Query() { content }) {
+  //   return this.articleService.find({ content });
+  // }
 }
