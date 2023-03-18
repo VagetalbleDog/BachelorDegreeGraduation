@@ -36,6 +36,6 @@ export class ArticleController {
    * 内容模糊匹配
    */
   searchByContent(@Query() { content }) {
-    return this.articleService.find("@");
+    return this.articleService.find({ content });
   }
 }

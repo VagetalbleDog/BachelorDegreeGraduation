@@ -16,7 +16,7 @@ async function bootstrap() {
   // 更新服务端api文档
   const docPath = path.resolve("./api-doc.json");
   fs.writeFile(docPath, JSON.stringify(document), () =>
-    console.log(`[Nest] api文档创建成功`)
+    console.log(`[Nest] api文档更新成功`)
   );
   SwaggerModule.setup("apiDoc", app, document);
   await app.listen(4000);

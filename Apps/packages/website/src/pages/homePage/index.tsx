@@ -1,14 +1,14 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import icon from "@/assets/icon.png";
 import styles from "./index.module.less";
 import slogan from "@/assets/slogan.png";
-
 import { BellFilled, BellOutlined } from "@ant-design/icons";
 import { Button, Input, Menu } from "antd";
 
 type SelectType = "home" | "loved" | "collect" | "article" | "write";
 const Home: FC = () => {
   const [select, setSelect] = useState<SelectType>("home");
+  useEffect(() => {}, []);
   return (
     <div>
       <header className={styles.header}>
