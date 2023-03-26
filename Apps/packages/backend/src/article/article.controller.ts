@@ -1,6 +1,30 @@
-import { Controller, Get, HttpCode, Query } from "@nestjs/common";
-import { ApiQuery, ApiTags } from "@nestjs/swagger";
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Query,
+} from "@nestjs/common";
+import {
+  ApiBody,
+  ApiParam,
+  ApiProperty,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
+import { ArticleEntity } from "./article.entity";
 import { ArticleService } from "./article.service";
+
+/**
+ * DTO
+ */
+export class searchDto {
+  @ApiProperty({ description: "搜索内容" })
+  search: string;
+}
 
 @Controller("article")
 @ApiTags("Article")
@@ -14,27 +38,32 @@ export class ArticleController {
     required: false,
     description: "query by category",
   })
+  @ApiResponse({ type: [ArticleEntity] })
   /**
    * 精准匹配
    */
   findAll(@Query() query) {
     return this.articleService.find(query);
   }
-  @Get("/search")
+
+  @Post("/search")
   @HttpCode(200)
-  @ApiQuery({ name: "title", required: false, description: "文章标题搜索" })
+  @ApiBody({
+    type: searchDto,
+    required: true,
+    description: "搜索内容",
+  })
   /**
    * 标题模糊匹配
    */
-  searchByTitle(@Query() { title }) {
-    return this.articleService.find("s");
+  async search(@Body() content: searchDto) {
+    const { search } = content;
+    const titleRes = await this.articleService.searchByTitle(search);
+    const contentRes = await this.articleService.searchByContent(search);
+    const result = [...titleRes, ...contentRes];
+    return {
+      data: result,
+      code: 200,
+    };
   }
-  // @Get()
-  // @HttpCode(200)
-  // /**
-  //  * 内容模糊匹配
-  //  */
-  // searchByContent(@Query() { content }) {
-  //   return this.articleService.find({ content });
-  // }
 }
