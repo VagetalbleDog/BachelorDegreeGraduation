@@ -65,6 +65,7 @@ const Home: FC = () => {
             <Input.Search
               style={{ width: "320px" }}
               placeholder="请输入关键词以搜索文章"
+              onSearch={(val) => setSearch(val)}
             />
             <BellOutlined style={{ fontSize: 30 }} />
             <Button type="primary">用户中心</Button>

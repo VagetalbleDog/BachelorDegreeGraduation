@@ -15,6 +15,7 @@ import {
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
+import { sleep } from "src/utils";
 import { ArticleResDTO, SearchDTO } from "./article.dto";
 import { ArticleService } from "./article.service";
 
@@ -36,6 +37,7 @@ export class ArticleController {
    */
   async findAll(@Query() query) {
     const res = await this.articleService.find(query);
+    await sleep(300);
     return {
       code: 200,
       data: [...res],
@@ -56,10 +58,9 @@ export class ArticleController {
   async search(@Body() content: SearchDTO) {
     const { search } = content;
     const titleRes = await this.articleService.searchByTitle(search);
-    const contentRes = await this.articleService.searchByContent(search);
-    const result = [...titleRes, ...contentRes];
+    await sleep(300);
     return {
-      data: result,
+      data: titleRes,
       code: 200,
     };
   }
