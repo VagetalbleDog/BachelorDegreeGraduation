@@ -15,16 +15,8 @@ import {
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
-import { ArticleEntity } from "./article.entity";
+import { ArticleResDTO, SearchDTO } from "./article.dto";
 import { ArticleService } from "./article.service";
-
-/**
- * DTO
- */
-export class searchDto {
-  @ApiProperty({ description: "搜索内容" })
-  search: string;
-}
 
 @Controller("article")
 @ApiTags("Article")
@@ -38,25 +30,30 @@ export class ArticleController {
     required: false,
     description: "query by category",
   })
-  @ApiResponse({ type: [ArticleEntity] })
+  @ApiResponse({ type: ArticleResDTO })
   /**
    * 精准匹配
    */
-  findAll(@Query() query) {
-    return this.articleService.find(query);
+  async findAll(@Query() query) {
+    const res = await this.articleService.find(query);
+    return {
+      code: 200,
+      data: [...res],
+    };
   }
 
   @Post("/search")
   @HttpCode(200)
   @ApiBody({
-    type: searchDto,
+    type: SearchDTO,
     required: true,
     description: "搜索内容",
   })
+  @ApiResponse({ type: ArticleResDTO })
   /**
    * 标题模糊匹配
    */
-  async search(@Body() content: searchDto) {
+  async search(@Body() content: SearchDTO) {
     const { search } = content;
     const titleRes = await this.articleService.searchByTitle(search);
     const contentRes = await this.articleService.searchByContent(search);

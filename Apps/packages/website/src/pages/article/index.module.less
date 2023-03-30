@@ -1,0 +1,80 @@
+.header {
+  background-color: #ffffff;
+  width: 100vw;
+  height: 64px;
+  margin-bottom: 8px;
+  //   padding: 0 16px;
+  .brandBar {
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: #e6e9ed 1px solid;
+    .left {
+      height: 60px;
+      margin-left: 32px;
+      display: flex;
+      align-items: center;
+      .brandName {
+        font-size: 24px;
+        color: #1f1f1f;
+        line-height: 60px;
+        font-weight: 800;
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+      }
+    }
+    .right {
+      height: 60px;
+      margin-right: 32px;
+      gap: 16px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+}
+.content {
+  min-height: 87vh;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+.markdownCtn {
+  width: 50vw;
+  padding: 24px 16px;
+  box-shadow: 5px 2px 5px 2px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  background-color: #ffffff;
+}
+.footer {
+  margin-top: 8px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+.toc {
+  width: 288px;
+  height: 50vh;
+  margin-top: 8px;
+  overflow-y: scroll;
+  background-color: #ffffff;
+  box-shadow: 5px 2px 5px 2px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+}
+// .toc::-webkit-scrollbar {
+//   width: 10px;
+// }
+
+// .toc::-webkit-scrollbar-thumb {
+//   border-radius: 10px;
+//   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+//   background: #535353;
+// }
+// .toc::-webkit-scrollbar-track {
+//   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+//   border-radius: 10px;
+//   background: #ededed;
+// }

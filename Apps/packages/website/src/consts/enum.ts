@@ -1,4 +1,5 @@
 export enum CategoryType {
+  ALL = 0,
   FRONTEND = 1,
   BACKEND = 2,
   CLIENT = 3,
@@ -8,6 +9,7 @@ export enum CategoryType {
   MAINTAIN = 7,
 }
 export const CategoryTextMap = {
+  [CategoryType.ALL]: "全部",
   [CategoryType.FRONTEND]: "前端",
   [CategoryType.BACKEND]: "后端",
   [CategoryType.CLIENT]: "客户端",

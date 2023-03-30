@@ -23,7 +23,12 @@ declare namespace API {
     collect_cnt: number;
   };
 
-  type searchDto = {
+  type ArticleResDTO = {
+    code: number;
+    data: ArticleEntity[];
+  };
+
+  type SearchDTO = {
     /** 搜索内容 */
     search: string;
   };

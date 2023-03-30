@@ -9,7 +9,7 @@ export async function ArticleControllerFindAll(
   params: API.ArticleControllerFindAllParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.ArticleEntity[]>(`${api}/article`, {
+  return request<API.ArticleResDTO>(`${api}/article`, {
     method: 'GET',
     params: {
       ...params,
@@ -20,10 +20,10 @@ export async function ArticleControllerFindAll(
 
 /** 此处后端没有提供注释 POST /article/search */
 export async function ArticleControllerSearch(
-  body: API.searchDto,
+  body: API.SearchDTO,
   options?: { [key: string]: any },
 ) {
-  return request<any>(`${api}/article/search`, {
+  return request<API.ArticleResDTO>(`${api}/article/search`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
