@@ -71,6 +71,8 @@ declare namespace API {
   type SearchReqDTO = {
     /** 搜索内容 */
     search: string;
+    /** 文章类型 */
+    category: number;
   };
 
   type UserEntity = {

@@ -21,6 +21,7 @@ const Home: FC = () => {
   // hooks
   const { AppAction, formInitValue } = useContext(AppControlContext);
   const articles = AppAction.computedState.articleList(category, search);
+
   return (
     <div>
       <header className={styles.header}>
@@ -65,7 +66,11 @@ const Home: FC = () => {
             <Input.Search
               style={{ width: "320px" }}
               placeholder="请输入关键词以搜索文章"
-              onSearch={(val) => setSearch(val)}
+              allowClear
+              onSearch={(val) => {
+                setCategory(CategoryType.ALL);
+                setSearch(val);
+              }}
             />
             <BellOutlined style={{ fontSize: 30 }} />
             <Button type="primary">用户中心</Button>
@@ -78,7 +83,7 @@ const Home: FC = () => {
         </div>
         <div className={styles.navBar}></div>
       </header>
-      <CategoryBar setCategory={setCategory} />
+      <CategoryBar val={category} setCategory={setCategory} />
       <ArticleList articles={articles} />
     </div>
   );
@@ -86,21 +91,25 @@ const Home: FC = () => {
 
 interface ICategoryBarProps {
   setCategory: Function;
+  val: CategoryType;
 }
-const CategoryBar: FC<ICategoryBarProps> = React.memo(({ setCategory }) => {
-  const { Item } = Menu;
-  const categorys = enumToArray(CategoryType);
-  return (
-    <Menu
-      className={styles.sideMenu}
-      defaultSelectedKeys={[String(CategoryType.ALL)]}
-    >
-      {categorys.map((i) => (
-        <Item key={i} onClick={() => setCategory(i)}>
-          {CategoryTextMap[i as CategoryType]}
-        </Item>
-      ))}
-    </Menu>
-  );
-});
+const CategoryBar: FC<ICategoryBarProps> = React.memo(
+  ({ setCategory, val }) => {
+    const { Item } = Menu;
+    const categorys = enumToArray(CategoryType);
+    return (
+      <Menu
+        className={styles.sideMenu}
+        defaultSelectedKeys={[String(CategoryType.ALL)]}
+        selectedKeys={[String(val)]}
+      >
+        {categorys.map((i) => (
+          <Item key={i} onClick={() => setCategory(i)}>
+            {CategoryTextMap[i as CategoryType]}
+          </Item>
+        ))}
+      </Menu>
+    );
+  }
+);
 export default React.memo(Home);

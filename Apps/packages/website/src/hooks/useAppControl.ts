@@ -37,10 +37,12 @@ export const useAppControl = () => {
           }
           AppAction.Base.setGlobalState({ loadingArticle: true });
           if (!isEmpty(search)) {
-            api.Article.ArticleControllerSearch({ search }).then(({ data }) => {
-              setData(data);
-              AppAction.Base.setGlobalState({ loadingArticle: false });
-            });
+            api.Article.ArticleControllerSearch({ search, category }).then(
+              ({ data }) => {
+                setData(data);
+                AppAction.Base.setGlobalState({ loadingArticle: false });
+              }
+            );
             return;
           }
           api.Article.ArticleControllerFindAll({ category }).then(

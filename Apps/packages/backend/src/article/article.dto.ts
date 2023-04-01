@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { ArticleEntity } from "./article.entity";
+import { ArticleEntity, CategoryType } from "./article.entity";
 
 /**
  * DTO
@@ -11,6 +11,8 @@ import { ArticleEntity } from "./article.entity";
 export class SearchReqDTO {
   @ApiProperty({ description: "搜索内容" })
   search: string;
+  @ApiProperty({ description: "文章类型" })
+  category: CategoryType;
 }
 export class ArticleEditOrCreateReqDTO {
   @ApiProperty()

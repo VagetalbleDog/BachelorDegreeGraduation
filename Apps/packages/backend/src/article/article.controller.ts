@@ -15,7 +15,7 @@ import {
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
-import { sleep } from "src/utils";
+import { deduplication, sleep } from "src/utils";
 import {
   ArticleEditOrCreateReqDTO,
   ArticleResDTO,
@@ -62,11 +62,19 @@ export class ArticleController {
    * 根据标题搜索
    */
   async search(@Body() content: SearchReqDTO) {
-    const { search } = content;
+    const { search, category } = content;
     const titleRes = await this.articleService.searchByTitle(search);
-    await sleep(300);
+    const contentRes = await this.articleService.searchByContent(search);
+
+    const deduplicatedRes = deduplication(titleRes, contentRes).filter((i) => {
+      if (!category) {
+        return true;
+      }
+      return i.category === category;
+    });
+    await sleep(200);
     return {
-      data: titleRes,
+      data: deduplicatedRes,
       code: 200,
     };
   }
