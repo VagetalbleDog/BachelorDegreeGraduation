@@ -59,7 +59,7 @@ export class ArticleEntity {
 
   @ApiProperty({
     description: "评论",
-    type: [CommentEntity],
+    type: () => [CommentEntity],
   })
   @OneToMany(() => CommentEntity, (comment) => comment.article)
   comments: CommentEntity[];
@@ -73,14 +73,14 @@ export class ArticleEntity {
   category: CategoryType;
 
   @ApiProperty({
-    type: [UserEntity],
+    type: () => [UserEntity],
     description: "点赞的用户",
   })
   @ManyToMany(() => UserEntity, (user) => user.likedArticles)
   likedBy: UserEntity[];
 
   @ApiProperty({
-    type: [UserEntity],
+    type: () => [UserEntity],
     description: "收藏的用户",
   })
   @ManyToMany(() => UserEntity, (user) => user.collectArticles)
@@ -88,7 +88,7 @@ export class ArticleEntity {
 
   @ApiProperty({
     description: "作者",
-    type: UserEntity,
+    type: () => UserEntity,
   })
   @ManyToOne(() => UserEntity, (user) => user.articles)
   author: UserEntity;

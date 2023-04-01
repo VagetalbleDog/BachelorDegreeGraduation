@@ -4,7 +4,7 @@ import { ArticleEntity } from "src/article/article.entity";
 import { UserEntity } from "src/user/user.entity";
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 
-@Entity()
+@Entity("Comment")
 export class CommentEntity {
   @ApiProperty({
     default: 2,
@@ -23,6 +23,7 @@ export class CommentEntity {
   @ApiProperty({
     default: 2,
     description: "评论目标用户",
+    type: () => UserEntity,
   })
   @ManyToOne(() => UserEntity)
   to: UserEntity;
@@ -30,6 +31,7 @@ export class CommentEntity {
   @ApiProperty({
     default: 2,
     description: "评论来自用户",
+    type: () => UserEntity,
   })
   @ManyToOne(() => UserEntity)
   from: UserEntity;
@@ -37,6 +39,7 @@ export class CommentEntity {
   @ApiProperty({
     default: 2,
     description: "评论文章",
+    type: () => ArticleEntity,
   })
   @ManyToOne(() => ArticleEntity, (article) => article.comments)
   article: ArticleEntity;

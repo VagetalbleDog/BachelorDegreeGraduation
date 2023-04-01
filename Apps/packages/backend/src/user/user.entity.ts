@@ -79,7 +79,7 @@ export class UserEntity {
   @ApiProperty({
     default: "",
     description: "我的文章",
-    type: [ArticleEntity],
+    type: () => [ArticleEntity],
   })
   @OneToMany(() => ArticleEntity, (article) => article.author)
   articles: ArticleEntity[];
@@ -87,18 +87,18 @@ export class UserEntity {
   @ApiProperty({
     default: "",
     description: "我喜欢的文章",
-    type: [ArticleEntity],
+    type: () => [ArticleEntity],
   })
-  @ManyToMany(() => ArticleEntity)
+  @ManyToMany(() => ArticleEntity, (artcile) => artcile.likedBy)
   @JoinTable()
   likedArticles: ArticleEntity[];
 
   @ApiProperty({
     default: "",
     description: "我收藏的文章",
-    type: [ArticleEntity],
+    type: () => [ArticleEntity],
   })
-  @ManyToMany(() => ArticleEntity)
+  @ManyToMany(() => ArticleEntity, (article) => article.collectBy)
   @JoinTable()
   collectArticles: ArticleEntity[];
 }
