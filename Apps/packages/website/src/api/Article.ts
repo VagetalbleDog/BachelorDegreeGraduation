@@ -18,9 +18,67 @@ export async function ArticleControllerFindAll(
   });
 }
 
+/** 此处后端没有提供注释 GET /article/${param0} */
+export async function ArticleControllerFindDetailById(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.ArticleControllerFindDetailByIdParams,
+  options?: { [key: string]: any },
+) {
+  const { id: param0, ...queryParams } = params;
+  return request<API.ArtilceDetailResDTO>(`${api}/article/${param0}`, {
+    method: 'GET',
+    params: { ...queryParams },
+    ...(options || {}),
+  });
+}
+
+/** 此处后端没有提供注释 POST /article/create */
+export async function ArticleControllerCreateArticle(
+  body: API.ArticleEditOrCreateReqDTO,
+  options?: { [key: string]: any },
+) {
+  return request<API.ExecutionResDTO>(`${api}/article/create`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 此处后端没有提供注释 POST /article/delete */
+export async function ArticleControllerDeleteArticle(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.ArticleControllerDeleteArticleParams,
+  options?: { [key: string]: any },
+) {
+  const { id: param0, ...queryParams } = params;
+  return request<API.ExecutionResDTO>(`${api}/article/delete`, {
+    method: 'POST',
+    params: { ...queryParams },
+    ...(options || {}),
+  });
+}
+
+/** 此处后端没有提供注释 POST /article/edit */
+export async function ArticleControllerEditArticle(
+  body: API.ArticleEditOrCreateReqDTO,
+  options?: { [key: string]: any },
+) {
+  return request<API.ExecutionResDTO>(`${api}/article/edit`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** 此处后端没有提供注释 POST /article/search */
 export async function ArticleControllerSearch(
-  body: API.SearchDTO,
+  body: API.SearchReqDTO,
   options?: { [key: string]: any },
 ) {
   return request<API.ArticleResDTO>(`${api}/article/search`, {

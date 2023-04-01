@@ -58,8 +58,8 @@ export const useAppControl = () => {
         );
         useEffect(() => {
           AppAction.Base.setGlobalState({ loadingDetail: true });
-          api.Article.ArticleControllerFindAll({ id }).then((res) => {
-            setData(res?.data[0]);
+          api.Article.ArticleControllerFindDetailById({ id }).then((res) => {
+            setData(res?.data);
             AppAction.Base.setGlobalState({ loadingDetail: false });
           });
         }, [id]);

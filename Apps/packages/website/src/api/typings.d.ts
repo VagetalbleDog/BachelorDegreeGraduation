@@ -1,9 +1,22 @@
 declare namespace API {
+  type ArticleControllerDeleteArticleParams = {
+    /** 文章id */
+    id: any;
+  };
+
   type ArticleControllerFindAllParams = {
     /** query by category */
     category?: any;
-    /** query by id */
-    id?: any;
+  };
+
+  type ArticleControllerFindDetailByIdParams = {
+    /** 文章id */
+    id: any;
+  };
+
+  type ArticleEditOrCreateReqDTO = {
+    id: number;
+    article: ArticleEntity;
   };
 
   type ArticleEntity = {
@@ -15,12 +28,16 @@ declare namespace API {
     desc: string;
     /** 文章内容 */
     content: string;
+    /** 评论 */
+    comments: CommentEntity[];
     /** 文章分类 */
     category: 1 | 2 | 3 | 4 | 5 | 6 | 7;
-    /** 点赞次数 */
-    like_cnt: number;
-    /** 收藏次数 */
-    collect_cnt: number;
+    /** 点赞的用户 */
+    likedBy: UserEntity[];
+    /** 收藏的用户 */
+    collectBy: UserEntity[];
+    /** 作者 */
+    author: UserEntity;
   };
 
   type ArticleResDTO = {
@@ -28,8 +45,58 @@ declare namespace API {
     data: ArticleEntity[];
   };
 
-  type SearchDTO = {
+  type ArtilceDetailResDTO = {
+    code: number;
+    data: ArticleEntity;
+  };
+
+  type CommentEntity = {
+    /** 评论id */
+    id: number;
+    /** 评论内容 */
+    content: string;
+    /** 评论目标用户 */
+    to: UserEntity;
+    /** 评论来自用户 */
+    from: UserEntity;
+    /** 评论文章 */
+    article: ArticleEntity;
+  };
+
+  type ExecutionResDTO = {
+    code: number;
+    success: boolean;
+  };
+
+  type SearchReqDTO = {
     /** 搜索内容 */
     search: string;
+  };
+
+  type UserEntity = {
+    /** 用户id */
+    id: number;
+    /** 用户名 */
+    username: string;
+    /** 密码 */
+    password: string;
+    /** 头像 */
+    avatar: string;
+    /** 社区名 */
+    nickname: string;
+    /** 职业 */
+    work: number;
+    /** 个人描述 */
+    selfDesc: string;
+    /** 感兴趣领域 */
+    interestsJson: string;
+    /** 技能评分 */
+    skillJson: string;
+    /** 我的文章 */
+    articles: ArticleEntity[];
+    /** 我喜欢的文章 */
+    likedArticles: ArticleEntity[];
+    /** 我收藏的文章 */
+    collectArticles: ArticleEntity[];
   };
 }
