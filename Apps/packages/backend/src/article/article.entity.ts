@@ -1,5 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
+import { UserEntity } from "src/user/user.entity";
+import { CommentEntity } from "src/comment/comment.entity";
 export enum CategoryType {
   FRONTEND = 1,
   BACKEND = 2,
@@ -48,12 +57,12 @@ export class ArticleEntity {
   @Column({ type: "text" })
   content: string;
 
-  // @ApiProperty({
-  //     default:[],
-  //     description:'评论'
-  // })
-  // @Column({type:'array'})
-  // comments:any[]
+  @ApiProperty({
+    description: "评论",
+    type: [CommentEntity],
+  })
+  @OneToMany(() => CommentEntity, (comment) => comment.article)
+  comments: CommentEntity[];
 
   @ApiProperty({
     enum: CategoryType,
@@ -64,16 +73,23 @@ export class ArticleEntity {
   category: CategoryType;
 
   @ApiProperty({
-    default: 0,
-    description: "点赞次数",
+    type: [UserEntity],
+    description: "点赞的用户",
   })
-  @Column({ type: "int", default: 0 })
-  like_cnt: number;
+  @ManyToMany(() => UserEntity, (user) => user.likedArticles)
+  likedBy: UserEntity[];
 
   @ApiProperty({
-    default: 0,
-    description: "收藏次数",
+    type: [UserEntity],
+    description: "收藏的用户",
   })
-  @Column({ type: "int", default: 0 })
-  collect_cnt: number;
+  @ManyToMany(() => UserEntity, (user) => user.collectArticles)
+  collectBy: UserEntity[];
+
+  @ApiProperty({
+    description: "作者",
+    type: UserEntity,
+  })
+  @ManyToOne(() => UserEntity, (user) => user.articles)
+  author: UserEntity;
 }
