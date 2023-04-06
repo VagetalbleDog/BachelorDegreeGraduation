@@ -21,7 +21,7 @@ import { CommentEntity } from "./comment/comment.entity";
       database: "tecCommunity",
       port: 3306,
       entities: [ArticleEntity, UserEntity, CommentEntity],
-      // synchronize: true,
+      synchronize: true,
       autoLoadEntities: true,
     }),
     ArticleModule,
@@ -31,4 +31,4 @@ import { CommentEntity } from "./comment/comment.entity";
   controllers: [AppController, UserController],
   providers: [AppService, UserService],
 })
-export class AppModule {}
+export class AppModule { }

@@ -3,8 +3,8 @@
   "author": "zhuwenfu <zhuwenfu@kuaishou.com>",
   "scripts": {
     "website:dev": "cd packages/website && pnpm dev",
-    "backend:dev": "cd packages/backend && pnpm start:dev",
-    "start:dev":"concurrently \"pnpm run website:dev\" \"pnpm run backend:dev\"",
+    "backend:dev": "cd packages/backend && pnpm start",
+    "start:dev": "concurrently \"pnpm run website:dev\" \"pnpm run backend:dev\"",
     "start": "pnpm --parallel -F './packages/*' start"
   },
   "dependencies": {
