@@ -28,7 +28,7 @@ import { CommentEntity } from "./comment/comment.entity";
     UserModule,
     CommentModule,
   ],
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService],
+  controllers: [AppController],
+  providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

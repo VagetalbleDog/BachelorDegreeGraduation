@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useMemo, useState } from "react";
 import icon from "@/assets/icon.png";
 import styles from "./index.module.less";
 import slogan from "@/assets/slogan.png";
@@ -11,6 +11,7 @@ import ContextComposer from "@/utils/ContextComposer";
 import { useSetState } from "ahooks";
 import { CategoryTextMap, CategoryType } from "@/consts/enum";
 import { enumToArray } from "@/utils";
+import { history } from "umi";
 
 type SelectType = "home" | "collect" | "article" | "write";
 const Home: FC = () => {
@@ -21,7 +22,7 @@ const Home: FC = () => {
   // hooks
   const { AppAction, formInitValue } = useContext(AppControlContext);
   const articles = AppAction.computedState.articleList(category, search);
-
+  const login = AppAction.computedState.isLogin();
   return (
     <div>
       <header className={styles.header}>
@@ -73,7 +74,30 @@ const Home: FC = () => {
               }}
             />
             <BellOutlined style={{ fontSize: 30 }} />
-            <Button type="primary">用户中心</Button>
+            {login ? (
+              <>
+                <Button
+                  type="primary"
+                  onClick={() => history.push("/userCenter")}
+                >
+                  用户中心
+                </Button>
+                <Button
+                  type="primary"
+                  danger
+                  onClick={() => {
+                    localStorage.clear();
+                    history.push("/login");
+                  }}
+                >
+                  注销
+                </Button>
+              </>
+            ) : (
+              <Button type="primary" onClick={() => history.push("/login")}>
+                登录
+              </Button>
+            )}
             <img
               alt="avatar"
               src="https://p3-passport.byteimg.com/img/user-avatar/587c5216244f7bd910286b8bf345084f~100x100.awebp"

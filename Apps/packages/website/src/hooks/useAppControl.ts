@@ -3,14 +3,26 @@ import { CategoryType } from "@/consts/enum";
 import { generateFormAssets } from "@/utils";
 import { AppControl } from "@/utils/AppControl";
 import { useMount, useSetState } from "ahooks";
-import { FormInstance } from "antd";
+import { FormInstance, message } from "antd";
 import { isEmpty } from "lodash";
 import { createContext, useEffect, useState } from "react";
+import { history } from "umi";
 
 export const useAppControl = () => {
   // 表单资源
   const appFormAssest = generateFormAssets({
-    regsiter: ["username", "password", "repeatPassword", 'avatar', 'nickname', 'work', 'selfDesc', 'interestsJson', 'skillJson'],
+    regsiter: [
+      "username",
+      "password",
+      "repeatPassword",
+      "avatar",
+      "nickname",
+      "work",
+      "selfDesc",
+      "interestsJson",
+      "skillJson",
+    ],
+    login: ["username", "password"],
   });
   // 表单初始值
   const formInitValue = {};
@@ -26,10 +38,35 @@ export const useAppControl = () => {
      * 注册用户
      * @param formValue 注册用户表单值
      */
-    static onRegisterFinish = async (formValue:any)=>{
-      console.log(formValue)
-    }
-
+    static onRegisterFinish = async (formValue: any) => {
+      formValue.skillJson = "";
+      formValue.interestsJson = JSON.stringify(formValue.interestsJson);
+      api.User.UserControllerRegsiterUser({
+        user: formValue,
+      }).then((res) => {
+        if (res.code === 201) {
+          message.success("用户注册成功,将跳转到登录页");
+          // 通过路由控制
+          history.push("/login");
+        } else {
+          message.error("注册失败,存在相同用户名");
+        }
+      });
+    };
+    /**
+     * 用户登录
+     */
+    static onUserLogin = async (loginInfo: any) => {
+      api.User.UserControllerLoginUser(loginInfo).then((res) => {
+        if (res.code === 200) {
+          message.success("登录成功");
+          localStorage.setItem("userKey", res.token);
+          history.push("/");
+        } else {
+          message.error("登录失败");
+        }
+      });
+    };
     // 计算属性
     static computedState = {
       /**
@@ -73,7 +110,7 @@ export const useAppControl = () => {
       /**
        * 文章详情
        * @param id 文章id
-       * @returns 
+       * @returns
        */
       articleDetail: (id: number | string) => {
         const [data, setData] = useState<API.ArticleEntity>(
@@ -88,13 +125,29 @@ export const useAppControl = () => {
         }, [id]);
         return data;
       },
+      /**
+       * 用户是否登录
+       * @param
+       * @returns
+       */
+      isLogin: () => {
+        const [login, setLogin] = useState(false);
+        useEffect(() => {
+          if (!localStorage.getItem("userKey")) {
+            setLogin(false);
+          } else {
+            setLogin(true);
+          }
+        });
+        return login;
+      },
     };
   }
 
   return {
     AppAction,
     formInitValue,
-    appFormAssest
+    appFormAssest,
   };
 };
 

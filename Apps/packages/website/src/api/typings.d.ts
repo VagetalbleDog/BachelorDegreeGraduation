@@ -101,4 +101,16 @@ declare namespace API {
     /** 我收藏的文章 */
     collectArticles: ArticleEntity[];
   };
+
+  type UserLoginDTO = {
+    /** 账号 */
+    username: string;
+    /** 密码 */
+    password: string;
+  };
+
+  type UserRegsiterDTO = {
+    /** 用户信息 */
+    user: UserEntity;
+  };
 }

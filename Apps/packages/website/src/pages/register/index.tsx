@@ -32,6 +32,7 @@ const Register: FC<Iprops> = React.memo(() => {
     useContext(AppControlContext);
   const { formFieldsName, formInstances, formsName } = appFormAssest;
   const { Item } = Form;
+  const { onRegisterFinish } = AppAction;
   // 页面state
   const [current, setCurrent] = useState(0);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -328,6 +329,21 @@ const Register: FC<Iprops> = React.memo(() => {
                   onCancel={() => setShowConfirm(false)}
                   okText="可以提交"
                   cancelText="再检查检查"
+                  onOk={() => {
+                    onRegisterFinish(
+                      formInstances.regsiter.getFieldsValue([
+                        formFieldsName.username,
+                        formFieldsName.password,
+                        formFieldsName.repeatPassword,
+                        formFieldsName.avatar,
+                        formFieldsName.nickname,
+                        formFieldsName.selfDesc,
+                        formFieldsName.work,
+                        formFieldsName.interestsJson,
+                        formFieldsName.skillJson,
+                      ])
+                    );
+                  }}
                 >
                   请检查信息无误后提交哦~
                 </Modal>
