@@ -1,0 +1,56 @@
+.header {
+    background-color: #ffffff;
+    width: 100vw;
+    height: 64px;
+    margin-bottom: 8px;
+
+    //   padding: 0 16px;
+    .brandBar {
+        height: 64px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: #e6e9ed 1px solid;
+
+        .left {
+            height: 60px;
+            margin-left: 32px;
+            display: flex;
+            align-items: center;
+
+            .brandName {
+                font-size: 24px;
+                color: #1f1f1f;
+                line-height: 60px;
+                font-weight: 800;
+                font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+                    "Lucida Sans", Arial, sans-serif;
+            }
+        }
+
+        .right {
+            height: 60px;
+            margin-right: 32px;
+            gap: 16px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+    }
+}
+
+.content {
+    min-height: 87vh;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.footer {
+    margin-top: 8px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}

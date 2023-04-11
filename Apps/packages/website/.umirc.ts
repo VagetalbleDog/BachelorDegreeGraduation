@@ -3,6 +3,7 @@ export default defineConfig({
   routes: [
     { path: "/", component: "homePage" },
     { path: "/article/:id", component: "article" },
+    {path:"/register",component:"register"}
   ],
   npmClient: "pnpm",
   proxy: {

@@ -3,13 +3,14 @@ import { CategoryType } from "@/consts/enum";
 import { generateFormAssets } from "@/utils";
 import { AppControl } from "@/utils/AppControl";
 import { useMount, useSetState } from "ahooks";
+import { FormInstance } from "antd";
 import { isEmpty } from "lodash";
 import { createContext, useEffect, useState } from "react";
 
 export const useAppControl = () => {
   // 表单资源
   const appFormAssest = generateFormAssets({
-    regsiter: ["username", "nickName", "age", "work"],
+    regsiter: ["username", "password", "repeatPassword", 'avatar', 'nickname', 'work', 'selfDesc', 'interestsJson', 'skillJson'],
   });
   // 表单初始值
   const formInitValue = {};
@@ -19,16 +20,31 @@ export const useAppControl = () => {
       loadingDetail: false,
     },
   }) {
-    // 定义一些功能逻辑
+    // 定义功能逻辑
 
-    static a: () => {};
+    /**
+     * 注册用户
+     * @param formValue 注册用户表单值
+     */
+    static onRegisterFinish = async (formValue:any)=>{
+      console.log(formValue)
+    }
 
     // 计算属性
     static computedState = {
+      /**
+       * 页面loading态
+       */
       loading: {
         loadingArticle: AppAction.Base.globalState.loadingArticle,
         loadingDetail: AppAction.Base.globalState.loadingDetail,
       },
+      /**
+       * 文章列表
+       * @param category 文章分类
+       * @param search 搜索词
+       * @returns 文章列表
+       */
       articleList: (category: number, search: string) => {
         const [data, setData] = useState<API.ArticleEntity[]>([]);
         useEffect(() => {
@@ -54,6 +70,11 @@ export const useAppControl = () => {
         }, [category, search]);
         return data;
       },
+      /**
+       * 文章详情
+       * @param id 文章id
+       * @returns 
+       */
       articleDetail: (id: number | string) => {
         const [data, setData] = useState<API.ArticleEntity>(
           {} as API.ArticleEntity
@@ -73,6 +94,7 @@ export const useAppControl = () => {
   return {
     AppAction,
     formInitValue,
+    appFormAssest
   };
 };
 

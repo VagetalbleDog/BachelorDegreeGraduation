@@ -3,6 +3,7 @@ import * as React from "react";
 import { useReducer, useCallback } from "react";
 import { FormInstance } from "antd";
 import { useForm } from "antd/lib/form/Form";
+import { DefaultOptionType } from "antd/es/select";
 
 export function strEnum<T extends string>(o: Array<T>): { [K in T]: K } {
   return o.reduce((res, key) => {
@@ -122,3 +123,15 @@ export function enumToArray<T extends Record<number, string>>(enumObj: T) {
   const arr = Object.keys(enumObj).filter((key) => !Number.isNaN(Number(key)));
   return arr.map((key) => Number(key));
 }
+export const enumToOptions = <T extends any>(
+  textMap: T
+): DefaultOptionType[] => {
+  const options: DefaultOptionType[] = [];
+  for (const key in textMap) {
+    options.push({
+      label: textMap[key] as any,
+      value: key,
+    });
+  }
+  return options;
+};
