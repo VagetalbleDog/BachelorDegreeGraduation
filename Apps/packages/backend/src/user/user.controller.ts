@@ -1,17 +1,31 @@
-import { Body, Controller, HttpCode, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Header,
+  Headers,
+  HttpCode,
+  Post,
+  UseGuards,
+} from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { ApiBody, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiHeader, ApiHeaders, ApiTags } from "@nestjs/swagger";
+import { AuthGuard } from "src/auth/auth.guard";
+import { Roles } from "src/auth/role.decorator";
 import { UserLoginDTO, UserRegsiterDTO } from "./user.dto";
+import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 
 @Controller("user")
 @ApiTags("User")
+@UseGuards(AuthGuard)
 export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService
   ) {}
   @Post("/register")
+  @Roles()
   @HttpCode(201)
   @ApiBody({
     type: UserRegsiterDTO,
@@ -20,6 +34,7 @@ export class UserController {
    * 注册用户
    */
   async regsiterUser(@Body() { user }) {
+    user.isAdmin = 2;
     try {
       const res = await this.userService.createUser(user);
       return {
@@ -35,6 +50,7 @@ export class UserController {
   }
 
   @Post("/login")
+  @Roles()
   @HttpCode(200)
   @ApiBody({
     type: UserLoginDTO,
@@ -46,10 +62,8 @@ export class UserController {
     const res = await this.userService.validateUser(username, password);
     if (res) {
       const payload = {
-        username,
-        id: res.id,
-        work: res.work,
-        interestsJson: res.interestsJson,
+        ...res,
+        password: undefined,
       };
       const token = this.jwtService.sign(payload, {
         secret: "zwf.20010928-3",
@@ -65,5 +79,22 @@ export class UserController {
         message: "账号或密码错误",
       };
     }
+  }
+  /**
+   * 获取用户信息
+   */
+  @Roles("administrator")
+  @Get("/info")
+  @HttpCode(200)
+  async getUserInfo(@Headers() { authorization }) {
+    const token = authorization;
+    const userSimpleInfo = this.jwtService.decode(token) as UserEntity;
+    const userFullInfo = await this.userService.getUserDetailInfo(
+      userSimpleInfo.id
+    );
+    return {
+      code: 200,
+      data: userFullInfo,
+    };
   }
 }

@@ -12,17 +12,18 @@ import { useSetState } from "ahooks";
 import { CategoryTextMap, CategoryType } from "@/consts/enum";
 import { enumToArray } from "@/utils";
 import { history } from "umi";
+import { avatarIdMap } from "@/utils/avatarList";
 
-type SelectType = "home" | "collect" | "article" | "write";
 const Home: FC = () => {
   // 页面视图state
-  const [select, setSelect] = useState<SelectType>("home");
   const [category, setCategory] = useState<CategoryType>(CategoryType.ALL);
   const [search, setSearch] = useState<string>("");
   // hooks
   const { AppAction, formInitValue } = useContext(AppControlContext);
   const articles = AppAction.computedState.articleList(category, search);
-  const login = AppAction.computedState.isLogin();
+  const isLogin = AppAction.computedState.isLogin();
+  const userInfo = AppAction.computedState.userInfo();
+  const isAdmin = AppAction.computedState.isAdmin(userInfo);
   return (
     <div>
       <header className={styles.header}>
@@ -37,32 +38,21 @@ const Home: FC = () => {
             <nav>
               <Button
                 type="text"
-                style={
-                  select === "home"
-                    ? { marginLeft: 16, color: "#1e80ff" }
-                    : { marginLeft: 16 }
-                }
-                onClick={() => setSelect("home")}
+                onClick={() => history.push("/")}
+                style={{ marginLeft: 16 }}
               >
                 首页
               </Button>
               <Button
                 type="text"
-                style={select === "collect" ? { color: "#1e80ff" } : {}}
-                onClick={() => setSelect("collect")}
-              >
-                我的收藏
-              </Button>
-              <Button
-                type="text"
-                style={select === "write" ? { color: "#1e80ff" } : {}}
-                onClick={() => setSelect("write")}
+                onClick={() => history.push("/write")}
+                disabled={!isLogin || isAdmin}
               >
                 写文章
               </Button>
+              {isAdmin && <Button type="text">官方通知</Button>}
             </nav>
           </div>
-          <img src={slogan} style={{ height: 48 }} />
           <div className={styles.right}>
             <Input.Search
               style={{ width: "320px" }}
@@ -73,15 +63,23 @@ const Home: FC = () => {
                 setSearch(val);
               }}
             />
-            <BellOutlined style={{ fontSize: 30 }} />
-            {login ? (
+            {isLogin ? (
               <>
-                <Button
-                  type="primary"
-                  onClick={() => history.push("/userCenter")}
-                >
-                  用户中心
-                </Button>
+                {isAdmin ? (
+                  <Button
+                    type="primary"
+                    onClick={() => history.push("/adminCenter")}
+                  >
+                    管理员中心
+                  </Button>
+                ) : (
+                  <Button
+                    type="primary"
+                    onClick={() => history.push("/userCenter")}
+                  >
+                    用户中心
+                  </Button>
+                )}
                 <Button
                   type="primary"
                   danger
@@ -94,15 +92,29 @@ const Home: FC = () => {
                 </Button>
               </>
             ) : (
-              <Button type="primary" onClick={() => history.push("/login")}>
-                登录
-              </Button>
+              <>
+                <Button type="primary" onClick={() => history.push("/login")}>
+                  登录
+                </Button>
+                <Button
+                  type="primary"
+                  onClick={() => history.push("/register")}
+                >
+                  注册
+                </Button>
+              </>
             )}
-            <img
-              alt="avatar"
-              src="https://p3-passport.byteimg.com/img/user-avatar/587c5216244f7bd910286b8bf345084f~100x100.awebp"
-              style={{ width: "42px", height: "42px", borderRadius: "50%" }}
-            />
+            {isLogin && (
+              <>
+                <BellOutlined style={{ fontSize: 24 }} />
+                <img
+                  src={
+                    avatarIdMap.find((item) => item.id == userInfo.avatar)?.img
+                  }
+                  style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+                />
+              </>
+            )}
           </div>
         </div>
         <div className={styles.navBar}></div>

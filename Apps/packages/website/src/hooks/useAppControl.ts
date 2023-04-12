@@ -126,6 +126,28 @@ export const useAppControl = () => {
         return data;
       },
       /**
+       * 获取用户信息
+       * @returns USERENTITY
+       */
+      userInfo: () => {
+        const [userInfo, setUserinfo] = useState<API.UserEntity>(
+          {} as API.UserEntity
+        );
+        useEffect(() => {
+          if (!localStorage.getItem("userKey")) {
+            return;
+          }
+          api.User.UserControllerGetUserInfo({
+            headers: {
+              authorization: localStorage.getItem("userKey"), // 添加请求头
+            },
+          }).then((res) => {
+            setUserinfo(res.data);
+          });
+        }, [localStorage.getItem("userKey")]);
+        return userInfo;
+      },
+      /**
        * 用户是否登录
        * @param
        * @returns
@@ -140,6 +162,20 @@ export const useAppControl = () => {
           }
         });
         return login;
+      },
+      /**
+       * 用户是否为管理员
+       */
+      isAdmin: (userInfo: API.UserEntity) => {
+        const [isAdmin, setIsAdmin] = useState(false);
+        useEffect(() => {
+          if (userInfo.username === "administrator") {
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
+        }, [userInfo]);
+        return isAdmin;
       },
     };
   }

@@ -3,6 +3,14 @@
 import request from 'umi-request';
 const api = '/api';
 
+/** 此处后端没有提供注释 GET /user/info */
+export async function UserControllerGetUserInfo(options?: { [key: string]: any }) {
+  return request<any>(`${api}/user/info`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
 /** 此处后端没有提供注释 POST /user/login */
 export async function UserControllerLoginUser(
   body: API.UserLoginDTO,

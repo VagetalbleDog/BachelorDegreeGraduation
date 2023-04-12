@@ -14,15 +14,15 @@ export class UserService {
    * 验证用户
    */
   async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.userEntity.find({
+    const user = await this.userEntity.findOne({
       where: { username: username },
     });
-    if (user.length === 0) {
+    if (!user) {
       // 不存在此用户
       return false;
     }
 
-    const hashedPassword = user[0].password;
+    const hashedPassword = user.password;
     if (bcrypt.compare(password, hashedPassword)) {
       return user;
     }
@@ -43,5 +43,17 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(user.password, salt);
     user.password = hashedPassword;
     return this.userEntity.insert(user);
+  }
+  /**
+   * 查找用户详情
+   */
+  async getUserDetailInfo(id: number) {
+    const user = await this.userEntity.findOne({
+      where: {
+        id,
+      },
+      relations: ["collectArticles", "likedArticles", "articles"],
+    });
+    return user;
   }
 }

@@ -37,6 +37,7 @@ export class UserEntity {
     default: "",
     description: "头像",
   })
+  @Column()
   avatar: string;
 
   @ApiProperty({
@@ -71,10 +72,10 @@ export class UserEntity {
 
   @ApiProperty({
     default: "",
-    description: "技能评分",
+    description: "是否为管理员",
   })
   @Column()
-  skillJson: string;
+  isAdmin: number;
 
   @ApiProperty({
     default: "",
