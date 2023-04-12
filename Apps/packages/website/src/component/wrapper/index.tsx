@@ -1,12 +1,18 @@
-import { Link } from "umi";
+import { Link, history } from "umi";
 import { Anchor, Button, Empty, Layout } from "antd";
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import styles from "./index.module.less";
 import icon from "@/assets/icon.png";
 import { BellOutlined } from "@ant-design/icons";
+import { AppControlContext } from "@/hooks/useAppControl";
+import { avatarIdMap } from "@/utils/avatarList";
 
 const { Content, Footer } = Layout;
 const Wrapper = ({ children }: any) => {
+  const { AppAction } = useContext(AppControlContext);
+  const isLogin = AppAction.computedState.isLogin();
+  const userInfo = AppAction.computedState.userInfo();
+  const isAdmin = AppAction.computedState.isAdmin(userInfo);
   return (
     <>
       <Layout className={styles.layout}>
@@ -25,18 +31,73 @@ const Wrapper = ({ children }: any) => {
                     首页
                   </Button>
                 </Link>
-                <Button type="text">我的文章</Button>
-                <Button type="text">写文章</Button>
+                <Button
+                  type="text"
+                  onClick={() => history.push("/write")}
+                  disabled={!isLogin || isAdmin}
+                >
+                  写文章
+                </Button>
               </nav>
             </div>
             <div className={styles.right}>
-              <BellOutlined style={{ fontSize: 30 }} />
-              <Button type="primary">用户中心</Button>
-              <img
-                alt="avatar"
-                src="https://p3-passport.byteimg.com/img/user-avatar/587c5216244f7bd910286b8bf345084f~100x100.awebp"
-                style={{ width: "42px", height: "42px", borderRadius: "50%" }}
-              />
+              {isLogin ? (
+                <>
+                  {isAdmin ? (
+                    <Button
+                      type="primary"
+                      onClick={() => history.push("/adminCenter")}
+                    >
+                      管理员中心
+                    </Button>
+                  ) : (
+                    <Button
+                      type="primary"
+                      onClick={() => history.push("/userCenter")}
+                    >
+                      用户中心
+                    </Button>
+                  )}
+                  <Button
+                    type="primary"
+                    danger
+                    onClick={() => {
+                      localStorage.clear();
+                      history.push("/login");
+                    }}
+                  >
+                    注销
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button type="primary" onClick={() => history.push("/login")}>
+                    登录
+                  </Button>
+                  <Button
+                    type="primary"
+                    onClick={() => history.push("/register")}
+                  >
+                    注册
+                  </Button>
+                </>
+              )}
+              {isLogin && (
+                <>
+                  <BellOutlined style={{ fontSize: 24 }} />
+                  <img
+                    src={
+                      avatarIdMap.find((item) => item.id == userInfo.avatar)
+                        ?.img
+                    }
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "50%",
+                    }}
+                  />
+                </>
+              )}
             </div>
           </div>
           <div className={styles.navBar}></div>
