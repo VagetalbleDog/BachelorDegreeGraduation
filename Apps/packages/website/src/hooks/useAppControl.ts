@@ -2,6 +2,7 @@ import api from "@/api";
 import { CategoryType } from "@/consts/enum";
 import { generateFormAssets } from "@/utils";
 import { AppControl } from "@/utils/AppControl";
+import { transformInterestJson } from "@/utils/transformInterestJson";
 import { useMount, useSetState } from "ahooks";
 import { FormInstance, message } from "antd";
 import { isEmpty } from "lodash";
@@ -40,7 +41,9 @@ export const useAppControl = () => {
      */
     static onRegisterFinish = async (formValue: any) => {
       formValue.skillJson = "";
-      formValue.interestsJson = JSON.stringify(formValue.interestsJson);
+      formValue.interestsJson = JSON.stringify(
+        transformInterestJson(formValue.work, formValue.interestsJson)
+      );
       api.User.UserControllerRegsiterUser({
         user: formValue,
       }).then((res) => {

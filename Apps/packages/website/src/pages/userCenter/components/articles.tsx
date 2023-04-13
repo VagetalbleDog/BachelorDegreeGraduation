@@ -1,33 +1,32 @@
-import { CategoryTextMap } from "@/consts/enum";
+import Article from "@/pages/homePage/list";
 import { TagColor } from "@/utils/tagColor";
 import {
   CommentOutlined,
   HeartOutlined,
   LikeOutlined,
 } from "@ant-design/icons";
-import { Empty, Pagination, Spin } from "antd";
-import { FC, useContext, useMemo, useState } from "react";
-import { AppControlContext } from "@/hooks/useAppControl";
-import styles from "./index.module.less";
-import { Link } from "umi";
+import { Empty, Pagination, Typography } from "antd";
 import { isEmpty } from "lodash";
-
-interface IProps {
+import { FC, memo, useMemo, useState } from "react";
+import { Link } from "umi";
+import styles from "../index.module.less";
+interface Iprops {
   articles: API.ArticleEntity[];
+  type: "my" | "collect" | "liked";
 }
-const Article: FC<IProps> = ({ articles }) => {
-  const { AppAction } = useContext(AppControlContext);
 
-  // 分页相关
+const Articles: FC<Iprops> = ({ articles, type }) => {
+  const { Title } = Typography;
   const [page, setPage] = useState<number>(1);
   const showArticle = useMemo(() => {
-    return articles.slice((page - 1) * 5, page * 5);
+    return articles.slice((page - 1) * 4, page * 4);
   }, [page, articles]);
-  // laoding
-  const loading = AppAction.computedState.loading.loadingArticle;
   return (
-    <div className={styles.articleListCtn}>
-      <Spin spinning={loading}>
+    <div className={styles.articleCtn}>
+      <Title level={4} style={{ marginTop: 0 }}>
+        我的{type === "my" ? "文章" : type === "collect" ? "收藏" : "点赞"}
+      </Title>
+      <div className={styles.articleListCtn}>
         {showArticle.map((i) => (
           <div key={i.id} className={styles.articleItemCtn}>
             <header className={styles.articleItemHeader}>
@@ -58,23 +57,19 @@ const Article: FC<IProps> = ({ articles }) => {
             </footer>
           </div>
         ))}
-      </Spin>
-      {isEmpty(showArticle) && (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          style={{
-            height: "45%",
-            position: "absolute",
-            marginTop: "50%",
-          }}
-          description="暂无相关文章哦～"
-        />
-      )}
+        {isEmpty(showArticle) && (
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            className={styles.empty}
+            description="暂无相关文章哦～"
+          />
+        )}
+      </div>
       <Pagination
         size="small"
         className={styles.pagination}
         onChange={setPage}
-        pageSize={5}
+        pageSize={4}
         current={page}
         total={articles.length}
         showSizeChanger={false}
@@ -84,4 +79,4 @@ const Article: FC<IProps> = ({ articles }) => {
   );
 };
 
-export default Article;
+export default memo(Articles);

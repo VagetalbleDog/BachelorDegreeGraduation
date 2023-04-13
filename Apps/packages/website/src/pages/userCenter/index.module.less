@@ -1,0 +1,113 @@
+.container {
+  width: 80vw;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.left {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+  .avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.15);
+  }
+  .nickName {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1f1f1f;
+  }
+  .desc {
+    width: 280px;
+    text-align: center;
+  }
+}
+.right {
+  flex: 1;
+  .infoPaneCtn {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+.echartsCtn {
+  display: flex;
+  justify-content: space-between;
+}
+.articleCtn {
+  padding: 16px;
+}
+.articleListCtn {
+  margin-top: 32px;
+  height: 600px;
+  position: relative;
+  .empty {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.pagination {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%);
+}
+.articleItemCtn {
+  height: 120px;
+  transition-duration: 0.3s;
+  padding: 0 16px;
+  border-bottom: #e5e6eb 1px solid;
+  .articleItemHeader {
+    padding-top: 8px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    color: #8a919f;
+    font-size: 14px;
+    height: 20px;
+  }
+  .articleItemTitle {
+    margin: 4px 0;
+    height: 20px;
+    font-size: 16px;
+    line-height: 20px;
+    cursor: pointer;
+  }
+  .articleItemDesc {
+    font-size: 14px;
+    color: #8a919f;
+    height: 32px;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .articleItemFooter {
+    height: 20px;
+    margin-top: 6px;
+    padding-bottom: 6px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+.articleItemCtn:hover {
+  background: #f5f7f9;
+}
+.actionIcon {
+  cursor: pointer;
+}
