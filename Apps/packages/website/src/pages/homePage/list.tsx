@@ -26,8 +26,8 @@ const Article: FC<IProps> = ({ articles }) => {
   // laoding
   const loading = AppAction.computedState.loading.loadingArticle;
   return (
-    <div className={styles.articleListCtn}>
-      <Spin spinning={loading}>
+    <Spin spinning={loading}>
+      <div className={styles.articleListCtn}>
         {showArticle.map((i) => (
           <div key={i.id} className={styles.articleItemCtn}>
             <header className={styles.articleItemHeader}>
@@ -58,29 +58,29 @@ const Article: FC<IProps> = ({ articles }) => {
             </footer>
           </div>
         ))}
-      </Spin>
-      {isEmpty(showArticle) && (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          style={{
-            height: "45%",
-            position: "absolute",
-            marginTop: "50%",
-          }}
-          description="暂无相关文章哦～"
+        {isEmpty(showArticle) && (
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            style={{
+              height: "45%",
+              position: "absolute",
+              marginTop: "50%",
+            }}
+            description="暂无相关文章哦～"
+          />
+        )}
+        <Pagination
+          size="small"
+          className={styles.pagination}
+          onChange={setPage}
+          pageSize={5}
+          current={page}
+          total={articles.length}
+          showSizeChanger={false}
+          showTotal={(total) => <span>共{total}篇帖子</span>}
         />
-      )}
-      <Pagination
-        size="small"
-        className={styles.pagination}
-        onChange={setPage}
-        pageSize={5}
-        current={page}
-        total={articles.length}
-        showSizeChanger={false}
-        showTotal={(total) => <span>共{total}篇帖子</span>}
-      />
-    </div>
+      </div>
+    </Spin>
   );
 };
 

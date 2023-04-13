@@ -21,6 +21,7 @@ const Articles: FC<Iprops> = ({ articles, type }) => {
   const showArticle = useMemo(() => {
     return articles.slice((page - 1) * 4, page * 4);
   }, [page, articles]);
+  console.log(articles);
   return (
     <div className={styles.articleCtn}>
       <Title level={4} style={{ marginTop: 0 }}>
@@ -43,16 +44,13 @@ const Articles: FC<Iprops> = ({ articles, type }) => {
               <span>
                 <LikeOutlined className={styles.actionIcon} />
                 &nbsp;
-                {i.likedBy?.length || 0}
               </span>
               <span>
                 <HeartOutlined className={styles.actionIcon} />
                 &nbsp;
-                {i.collectBy?.length || 0}
               </span>
               <span>
                 <CommentOutlined />
-                &nbsp;{i.comments?.length || 0}
               </span>
             </footer>
           </div>
