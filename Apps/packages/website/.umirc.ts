@@ -6,6 +6,7 @@ export default defineConfig({
     { path: "/register", component: "register" },
     { path: "/login", component: "login" },
     { path: "/userCenter", component: "userCenter" },
+    { path: "/write", component: "write" },
   ],
   npmClient: "pnpm",
   proxy: {
