@@ -131,7 +131,7 @@ export const enumToOptions = <T extends any>(
   for (const key in textMap) {
     options.push({
       label: textMap[key] as any,
-      value: key,
+      value: Number(key),
     });
   }
   return options;

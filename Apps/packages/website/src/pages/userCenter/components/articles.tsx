@@ -21,7 +21,6 @@ const Articles: FC<Iprops> = ({ articles, type }) => {
   const showArticle = useMemo(() => {
     return articles.slice((page - 1) * 4, page * 4);
   }, [page, articles]);
-  console.log(articles);
   return (
     <div className={styles.articleCtn}>
       <Title level={4} style={{ marginTop: 0 }}>
@@ -38,7 +37,7 @@ const Articles: FC<Iprops> = ({ articles, type }) => {
             </header>
             <Link to={`/article/${i.id}`}>
               <h4 className={styles.articleItemTitle}>{i.title}</h4>
-              <div className={styles.articleItemDesc}>{i.content}</div>
+              <div className={styles.articleItemDesc}>{i.desc}</div>
             </Link>
             <footer className={styles.articleItemFooter}>
               <span>

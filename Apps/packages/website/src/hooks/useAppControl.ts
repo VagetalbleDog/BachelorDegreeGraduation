@@ -24,6 +24,7 @@ export const useAppControl = () => {
       "skillJson",
     ],
     login: ["username", "password"],
+    article: ["title", "category", "desc", "content"],
   });
   // 表单初始值
   const formInitValue = {};
@@ -69,6 +70,90 @@ export const useAppControl = () => {
           message.error("登录失败");
         }
       });
+    };
+    /**
+     * 创建新文章
+     */
+    static createArticle = async (
+      articleInfo: any,
+      userInfo: API.UserEntity
+    ) => {
+      const { title, desc, category, content } = articleInfo;
+      if (!title || !desc || !category || !content) {
+        message.error("缺少必填项，请检查~");
+        return;
+      }
+      if (!localStorage.getItem("userKey")) {
+        message.error("您尚未登录,请登录后再发表文章哦~");
+        return;
+      }
+      const param = {
+        title,
+        desc,
+        category,
+        content,
+        author: userInfo,
+      } as Pick<
+        API.ArticleEntity,
+        "author" | "category" | "desc" | "content" | "title"
+      >;
+      api.Article.ArticleControllerCreateArticle({
+        id: 1,
+        article: param as API.ArticleEntity,
+      })
+        .then((res: any) => {
+          if (res.code === 201) {
+            const { id } = res.res;
+            message.success("文章发表成功，将为您跳转到文章详情页");
+            setTimeout(() => history.push(`/article/${id}`), 800);
+          } else {
+            message.error("出了点问题哦~");
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          message.error("服务端报错，请前往控制台查看");
+        });
+    };
+    /**
+     * 编辑文章
+     */
+    static editArticle = async (
+      editInfo: any,
+      articleInfo: API.ArticleEntity
+    ) => {
+      // 表单校验
+      const { title, desc, category, content } = editInfo;
+      if (!title || !desc || !category || !content) {
+        message.error("缺少必填项");
+        return;
+      }
+      if (!localStorage.getItem("userKey")) {
+        message.error("您尚未登录,请登录后再操作哦~");
+        return;
+      }
+      articleInfo.title = title;
+      articleInfo.desc = desc;
+      articleInfo.category = category;
+      articleInfo.content = content;
+      api.Article.ArticleControllerEditArticle({
+        id: articleInfo.id,
+        article: articleInfo,
+      })
+        .then((res: any) => {
+          if (res.code === 201) {
+            message.success("修改成功，将为您重定向回文章详情页");
+            setTimeout(() => {
+              history.push(`/article/${articleInfo.id}`);
+            }, 1000);
+          } else {
+            message.error("似乎出了点问题");
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          message.error("服务端报错，请前往控制台查看");
+        });
     };
     // 计算属性
     static computedState = {
@@ -120,6 +205,9 @@ export const useAppControl = () => {
           {} as API.ArticleEntity
         );
         useEffect(() => {
+          if (!id) {
+            return;
+          }
           AppAction.Base.setGlobalState({ loadingDetail: true });
           api.Article.ArticleControllerFindDetailById({ id }).then((res) => {
             setData(res?.data);

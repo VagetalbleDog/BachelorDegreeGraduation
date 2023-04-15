@@ -42,7 +42,9 @@ export class ArticleController {
    * 查询所有文章
    */
   async findAll(@Query() query) {
-    const res = await this.articleService.find(query);
+    const res = await (
+      await this.articleService.find(query)
+    ).sort((a, b) => b.id - a.id);
     await sleep(300);
     return {
       code: 200,

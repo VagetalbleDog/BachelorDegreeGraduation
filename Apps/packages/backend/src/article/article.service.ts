@@ -54,8 +54,8 @@ export class ArticleService {
    */
   async addArticle(article: ArticleEntity) {
     try {
-      await this.articleEntity.insert(article);
-      return true;
+      const res = await this.articleEntity.insert(article);
+      return { id: res.identifiers[0].id };
     } catch (e) {
       return false;
     }
@@ -76,9 +76,11 @@ export class ArticleService {
    * 修改文章
    * @return Promise<boolean>
    */
-  async editArticle(id: number, article: ArticleEntity) {
+  async editArticle(id: number, editArticle: ArticleEntity) {
     try {
-      await this.articleEntity.update({ id: id }, article);
+      let article = await this.articleEntity.findOne({ where: { id: id } });
+      article = editArticle;
+      await this.articleEntity.save(article);
       return true;
     } catch (e) {
       return false;

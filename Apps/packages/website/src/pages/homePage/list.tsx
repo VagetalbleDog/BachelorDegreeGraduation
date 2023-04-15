@@ -38,7 +38,7 @@ const Article: FC<IProps> = ({ articles }) => {
             </header>
             <Link to={`/article/${i.id}`}>
               <h4 className={styles.articleItemTitle}>{i.title}</h4>
-              <div className={styles.articleItemDesc}>{i.content}</div>
+              <div className={styles.articleItemDesc}>{i.desc}</div>
             </Link>
             <footer className={styles.articleItemFooter}>
               <span>
