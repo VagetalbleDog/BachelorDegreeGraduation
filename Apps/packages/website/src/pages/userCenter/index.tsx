@@ -5,13 +5,14 @@ import { TagColor } from "@/utils/tagColor";
 import { message, Tabs, TabsProps, Typography } from "antd";
 import TabPane from "antd/es/tabs/TabPane";
 import { FC, memo, useContext, useState } from "react";
-import { history } from "umi";
+import { history, useParams } from "umi";
 import Articles from "./components/articles";
 import InfoPane from "./components/infoPane";
 import styles from "./index.module.less";
 interface Iprops {}
 
 const UserCenter: FC<Iprops> = () => {
+  const { userId } = useParams();
   const { AppAction, formInitValue, appFormAssest } =
     useContext(AppControlContext);
   // 是否登录？
@@ -20,7 +21,7 @@ const UserCenter: FC<Iprops> = () => {
     history.push("/login");
     return <></>;
   }
-  const userInfo = AppAction.computedState.userInfo();
+  const userInfo = AppAction.computedState.userInfoById(userId as string);
   const { Title, Paragraph } = Typography;
   return (
     <Wrapper>

@@ -75,6 +75,11 @@ declare namespace API {
     category: number;
   };
 
+  type UserControllerGetUserInfoByIdParams = {
+    /** 用户ID */
+    userId: any;
+  };
+
   type UserEntity = {
     /** 用户id */
     id: number;
@@ -92,8 +97,8 @@ declare namespace API {
     selfDesc: string;
     /** 感兴趣领域 */
     interestsJson: string;
-    /** 技能评分 */
-    skillJson: string;
+    /** 是否为管理员 */
+    isAdmin: number;
     /** 我的文章 */
     articles: ArticleEntity[];
     /** 我喜欢的文章 */

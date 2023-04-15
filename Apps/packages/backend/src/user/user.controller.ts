@@ -5,11 +5,19 @@ import {
   Header,
   Headers,
   HttpCode,
+  Param,
   Post,
   UseGuards,
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { ApiBody, ApiHeader, ApiHeaders, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBody,
+  ApiHeader,
+  ApiHeaders,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import { AuthGuard } from "src/auth/auth.guard";
 import { Roles } from "src/auth/role.decorator";
 import { UserLoginDTO, UserRegsiterDTO } from "./user.dto";
@@ -83,7 +91,7 @@ export class UserController {
   /**
    * 获取用户信息
    */
-  @Roles("administrator")
+  @Roles("login")
   @Get("/info")
   @HttpCode(200)
   async getUserInfo(@Headers() { authorization }) {
@@ -92,6 +100,20 @@ export class UserController {
     const userFullInfo = await this.userService.getUserDetailInfo(
       userSimpleInfo.id
     );
+    return {
+      code: 200,
+      data: userFullInfo,
+    };
+  }
+  /**
+   * 根据id获取用户信息
+   */
+  @Roles("login")
+  @Get("/getInfo/:userId")
+  @HttpCode(200)
+  @ApiParam({ name: "userId", description: "用户ID" })
+  async getUserInfoById(@Param() { userId }) {
+    const userFullInfo = await this.userService.getUserDetailInfo(userId);
     return {
       code: 200,
       data: userFullInfo,

@@ -45,8 +45,8 @@ export class AuthGuard implements CanActivate {
     }
     //解密
     const userInfo = this.jwtService.decode(token) as UserEntity;
-    if (roles.includes("adminstrator")) {
-      if (userInfo.username === "adminstrator") {
+    if (roles.includes("admin")) {
+      if (userInfo.isAdmin === 1) {
         return true;
       } else {
         return false;

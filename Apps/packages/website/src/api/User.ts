@@ -3,6 +3,20 @@
 import request from 'umi-request';
 const api = '/api';
 
+/** 此处后端没有提供注释 GET /user/getInfo/${param0} */
+export async function UserControllerGetUserInfoById(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.UserControllerGetUserInfoByIdParams,
+  options?: { [key: string]: any },
+) {
+  const { userId: param0, ...queryParams } = params;
+  return request<any>(`${api}/user/getInfo/${param0}`, {
+    method: 'GET',
+    params: { ...queryParams },
+    ...(options || {}),
+  });
+}
+
 /** 此处后端没有提供注释 GET /user/info */
 export async function UserControllerGetUserInfo(options?: { [key: string]: any }) {
   return request<any>(`${api}/user/info`, {

@@ -5,7 +5,7 @@ export default defineConfig({
     { path: "/article/:id", component: "article" },
     { path: "/register", component: "register" },
     { path: "/login", component: "login" },
-    { path: "/userCenter", component: "userCenter" },
+    { path: "/userCenter/:userId", component: "userCenter" },
     { path: "/write", component: "write" },
     { path: "/write/:id", component: "write" },
   ],

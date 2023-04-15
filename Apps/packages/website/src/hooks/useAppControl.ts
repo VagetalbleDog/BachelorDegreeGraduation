@@ -217,7 +217,7 @@ export const useAppControl = () => {
         return data;
       },
       /**
-       * 获取用户信息
+       * 获取当前用户信息(通过token)
        * @returns USERENTITY
        */
       userInfo: () => {
@@ -267,6 +267,34 @@ export const useAppControl = () => {
           }
         }, [userInfo]);
         return isAdmin;
+      },
+      /**
+       * 根据id获取用户信息
+       */
+      userInfoById: (id: string | number) => {
+        const [userInfo, setUserInfo] = useState<API.UserEntity>(
+          {} as API.UserEntity
+        );
+        useEffect(() => {
+          if (!localStorage.getItem("userKey") || !id) {
+            return;
+          }
+          api.User.UserControllerGetUserInfoById(
+            {
+              userId: id,
+            },
+            {
+              headers: {
+                authorization: localStorage.getItem("userKey"), // 添加请求头
+              },
+            }
+          ).then((res) => {
+            if (res.code === 200) {
+              setUserInfo(res.data);
+            }
+          });
+        }, [id]);
+        return userInfo;
       },
     };
   }
