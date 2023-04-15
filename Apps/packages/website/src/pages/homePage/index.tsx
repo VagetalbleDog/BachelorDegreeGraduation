@@ -11,7 +11,7 @@ import ContextComposer from "@/utils/ContextComposer";
 import { useSetState } from "ahooks";
 import { CategoryTextMap, CategoryType } from "@/consts/enum";
 import { enumToArray } from "@/utils";
-import { history } from "umi";
+import { history, Link } from "umi";
 import { avatarIdMap } from "@/utils/avatarList";
 
 const Home: FC = () => {
@@ -73,12 +73,9 @@ const Home: FC = () => {
                     管理员中心
                   </Button>
                 ) : (
-                  <Button
-                    type="primary"
-                    onClick={() => history.push("/userCenter")}
-                  >
-                    用户中心
-                  </Button>
+                  <Link to={`/userCenter/${userInfo.id}`}>
+                    <Button type="primary">用户中心</Button>
+                  </Link>
                 )}
                 <Button
                   type="primary"
