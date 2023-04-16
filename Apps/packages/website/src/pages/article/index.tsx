@@ -1,5 +1,13 @@
 import { Link, useParams, history } from "umi";
-import { Anchor, Button, Descriptions, Empty, Layout, Typography } from "antd";
+import {
+  Anchor,
+  Button,
+  Descriptions,
+  Empty,
+  Layout,
+  Popconfirm,
+  Typography,
+} from "antd";
 import React, { FC, useContext } from "react";
 import styles from "./index.module.less";
 import { AppControlContext } from "@/hooks/useAppControl";
@@ -67,9 +75,18 @@ const ArticleDetail: FC<IProps> = () => {
             {userInfo && userInfo?.id === detailData?.author?.id && (
               <>
                 <Descriptions.Item label="操作">
-                  <Button danger type="primary">
-                    删除
-                  </Button>
+                  <Popconfirm
+                    title="您确定要删除吗"
+                    okText="确定"
+                    cancelText="取消"
+                    onConfirm={() =>
+                      AppAction.deleteArticle(detailData.id, userInfo)
+                    }
+                  >
+                    <Button danger type="primary">
+                      删除
+                    </Button>
+                  </Popconfirm>
                   <Link to={`/write/${detailData.id}`}>
                     <Button type="primary" style={{ marginLeft: 8 }}>
                       修改

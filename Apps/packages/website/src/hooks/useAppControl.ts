@@ -155,6 +155,36 @@ export const useAppControl = () => {
           message.error("服务端报错，请前往控制台查看");
         });
     };
+    /**
+     * 删除文章
+     */
+    static deleteArticle = async (
+      id: string | number,
+      userInfo: API.UserEntity
+    ) => {
+      if (!id) {
+        return;
+      }
+      api.Article.ArticleControllerDeleteArticle(
+        {
+          id: id,
+        },
+        {
+          headers: {
+            authorization: localStorage.getItem("userKey"), // 添加请求头
+          },
+        }
+      )
+        .then((res) => {
+          if (res.code === 201) {
+            message.success("删除成功，将为您跳转回用户主页");
+            setTimeout(() => history.push(`/userCenter/${userInfo.id}`), 500);
+          } else {
+            message.error("删除失败，您没有权限");
+          }
+        })
+        .catch((e) => console.error(e));
+    };
     // 计算属性
     static computedState = {
       /**

@@ -6,7 +6,9 @@ import {
   Param,
   Post,
   Query,
+  Headers,
 } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import {
   ApiBody,
   ApiParam,
@@ -15,6 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
+import { UserEntity } from "src/user/user.entity";
 import { deduplication, sleep } from "src/utils";
 import {
   ArticleEditOrCreateReqDTO,
@@ -29,7 +32,10 @@ import { ArticleService } from "./article.service";
 @Controller("article")
 @ApiTags("Article")
 export class ArticleController {
-  constructor(private readonly articleService: ArticleService) {}
+  constructor(
+    private readonly articleService: ArticleService,
+    private readonly jwtService: JwtService
+  ) {}
   @Get()
   @HttpCode(200)
   @ApiQuery({
@@ -133,7 +139,16 @@ export class ArticleController {
   /**
    * 删除文章
    */
-  async deleteArticle(@Param() { id }) {
+  async deleteArticle(@Param() { id }, @Headers() { authorization }) {
+    const articleInfo = await this.articleService.findDetailById(id);
+    const token = authorization;
+    const userSimpleInfo = this.jwtService.decode(token) as UserEntity;
+    if (articleInfo.author.id != userSimpleInfo.id) {
+      return {
+        code: 403,
+        res: "failed",
+      };
+    }
     const res = await this.articleService.deleteArticle(id);
     return {
       code: 201,
