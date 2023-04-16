@@ -46,19 +46,23 @@ const ArticleDetail: FC<IProps> = () => {
               {detailData.comments.length}
             </Descriptions.Item>
             <Descriptions.Item label="作者">
-              <span className={styles.authorItem}>
-                <img
-                  src={
-                    avatarIdMap.find((item) => item.id == userInfo.avatar)?.img
-                  }
-                  style={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "50%",
-                  }}
-                />
-                <span>{detailData.author.nickname}</span>
-              </span>
+              <Link to={`/userCenter/${detailData.author.id}`}>
+                <span className={styles.authorItem}>
+                  <img
+                    src={
+                      avatarIdMap.find(
+                        (item) => item.id == detailData.author.avatar
+                      )?.img
+                    }
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "50%",
+                    }}
+                  />
+                  <span>{detailData.author.nickname}</span>
+                </span>
+              </Link>
             </Descriptions.Item>
             {userInfo && userInfo?.id === detailData?.author?.id && (
               <>

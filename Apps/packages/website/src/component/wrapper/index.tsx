@@ -51,12 +51,9 @@ const Wrapper = ({ children }: any) => {
                       管理员中心
                     </Button>
                   ) : (
-                    <Button
-                      type="primary"
-                      onClick={() => history.push("/userCenter")}
-                    >
-                      用户中心
-                    </Button>
+                    <Link to={`/userCenter/${userInfo.id}`}>
+                      <Button type="primary">用户中心</Button>
+                    </Link>
                   )}
                   <Button
                     type="primary"
