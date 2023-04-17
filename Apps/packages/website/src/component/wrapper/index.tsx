@@ -51,7 +51,7 @@ const Wrapper = ({ children }: any) => {
                       管理员中心
                     </Button>
                   ) : (
-                    <Link to={`/userCenter/${userInfo.id}`}>
+                    <Link to={`/userCenter/${userInfo?.id}`}>
                       <Button type="primary">用户中心</Button>
                     </Link>
                   )}
@@ -84,7 +84,7 @@ const Wrapper = ({ children }: any) => {
                   <BellOutlined style={{ fontSize: 24 }} />
                   <img
                     src={
-                      avatarIdMap.find((item) => item.id == userInfo.avatar)
+                      avatarIdMap.find((item) => item.id == userInfo?.avatar)
                         ?.img
                     }
                     style={{

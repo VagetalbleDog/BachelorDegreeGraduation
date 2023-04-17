@@ -2,7 +2,8 @@ import Wrapper from "@/component/wrapper";
 import { AppControlContext } from "@/hooks/useAppControl";
 import { avatarIdMap } from "@/utils/avatarList";
 import { TagColor } from "@/utils/tagColor";
-import { message, Tabs, TabsProps, Typography } from "antd";
+import { UserAddOutlined } from "@ant-design/icons";
+import { Button, message, Tabs, TabsProps, Typography } from "antd";
 import TabPane from "antd/es/tabs/TabPane";
 import { FC, memo, useContext, useState } from "react";
 import { history, useParams } from "umi";
@@ -22,6 +23,7 @@ const UserCenter: FC<Iprops> = () => {
     return <></>;
   }
   const userInfo = AppAction.computedState.userInfoById(userId as string);
+  const localUserInfo = AppAction.computedState.userInfo();
   const { Title, Paragraph } = Typography;
   return (
     <Wrapper>
@@ -37,6 +39,18 @@ const UserCenter: FC<Iprops> = () => {
           <div>
             <TagColor work category={userInfo.work} />
           </div>
+          {!(userInfo.id === localUserInfo.id) &&
+            (localUserInfo.follows?.some(
+              (i: API.UserEntity) => i.id === userInfo.id
+            ) ? (
+              <Button type="primary" danger icon={<UserAddOutlined />}>
+                取消关注
+              </Button>
+            ) : (
+              <Button type="primary" icon={<UserAddOutlined />}>
+                follow
+              </Button>
+            ))}
           <div className={styles.desc}>
             <Title level={3}>自我介绍</Title>
             <Paragraph>{userInfo.selfDesc}</Paragraph>

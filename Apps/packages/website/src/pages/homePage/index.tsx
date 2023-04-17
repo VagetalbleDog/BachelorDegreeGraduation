@@ -73,7 +73,7 @@ const Home: FC = () => {
                     管理员中心
                   </Button>
                 ) : (
-                  <Link to={`/userCenter/${userInfo.id}`}>
+                  <Link to={`/userCenter/${userInfo?.id}`}>
                     <Button type="primary">用户中心</Button>
                   </Link>
                 )}
@@ -106,7 +106,7 @@ const Home: FC = () => {
                 <BellOutlined style={{ fontSize: 24 }} />
                 <img
                   src={
-                    avatarIdMap.find((item) => item.id == userInfo.avatar)?.img
+                    avatarIdMap.find((item) => item.id == userInfo?.avatar)?.img
                   }
                   style={{ width: "50px", height: "50px", borderRadius: "50%" }}
                 />

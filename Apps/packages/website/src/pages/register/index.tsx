@@ -311,9 +311,7 @@ const Register: FC<Iprops> = React.memo(() => {
                   rules={[
                     { required: true },
                     {
-                      validator(_, value) {
-                        console.log(value);
-                      },
+                      validator(_, value) {},
                     },
                   ]}
                 >

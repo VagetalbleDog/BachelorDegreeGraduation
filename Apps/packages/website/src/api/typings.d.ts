@@ -105,6 +105,10 @@ declare namespace API {
     likedArticles: ArticleEntity[];
     /** 我收藏的文章 */
     collectArticles: ArticleEntity[];
+    /** 我的粉丝 */
+    fans: UserEntity[];
+    /** 我的关注 */
+    follows: UserEntity[];
   };
 
   type UserLoginDTO = {

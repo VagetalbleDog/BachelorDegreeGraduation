@@ -102,4 +102,19 @@ export class UserEntity {
   @ManyToMany(() => ArticleEntity, (article) => article.collectBy)
   @JoinTable()
   collectArticles: ArticleEntity[];
+
+  @ApiProperty({
+    description: "我的粉丝",
+    type: () => [UserEntity],
+  })
+  @ManyToMany(() => UserEntity, (user) => user.follows)
+  fans: UserEntity[];
+
+  @ApiProperty({
+    description: "我的关注",
+    type: () => [UserEntity],
+  })
+  @JoinTable()
+  @ManyToMany(() => UserEntity, (user) => user.fans)
+  follows: UserEntity[];
 }

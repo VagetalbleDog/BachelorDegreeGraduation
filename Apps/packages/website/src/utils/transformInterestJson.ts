@@ -17,7 +17,7 @@ export const transformInterestJson = (
     if (Number(cate) == work) {
       init[cate] = init[cate] + 40;
     }
-    if (interests.includes(cate as any)) {
+    if (interests.includes(Number(cate))) {
       init[cate] = init[cate] + 20;
     }
   }

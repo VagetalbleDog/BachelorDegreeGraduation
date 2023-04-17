@@ -279,7 +279,6 @@ export const barOption = (
 };
 
 export const pieOptions = (value: any[]) => {
-  console.log(value);
   value = value?.map((i) => ({
     name: CategoryTextMap[i.category as CategoryType],
     value: i.value,
@@ -323,7 +322,6 @@ export const pieOptions = (value: any[]) => {
     tooltip: {
       trigger: "item",
       formatter: function (params: any) {
-        console.log(params);
         return `${params.name},兴趣值:${params.value} (${params.percent}%)`;
       },
     },
@@ -336,7 +334,6 @@ export const pieOptions = (value: any[]) => {
         roseType: "radius",
         label: {
           formatter: function (params: any) {
-            console.log(params);
             return `${params.name}`;
           },
         },

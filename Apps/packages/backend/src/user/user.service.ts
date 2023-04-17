@@ -52,7 +52,13 @@ export class UserService {
       where: {
         id,
       },
-      relations: ["collectArticles", "likedArticles", "articles"],
+      relations: [
+        "collectArticles",
+        "likedArticles",
+        "articles",
+        "fans",
+        "follows",
+      ],
     });
     return user;
   }
