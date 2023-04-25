@@ -62,4 +62,44 @@ export class UserService {
     });
     return user;
   }
+  /**
+   * 关注某用户
+   */
+  async followUser(fansId: number, followId: number) {
+    const fans = await this.userEntity.findOne({
+      where: { id: fansId },
+      loadRelationIds: true,
+    });
+    const follow = await this.userEntity.findOne({
+      where: { id: followId },
+      loadRelationIds: true,
+    });
+    try {
+      follow.fans.push(fans);
+      await this.userEntity.save(follow);
+      return true;
+    } catch (e) {
+      return e;
+    }
+  }
+  /**
+   * 取消关注
+   */
+  async unfollow(fansId: number, followId: number) {
+    const fans = await this.userEntity.findOne({
+      where: { id: fansId },
+      loadRelationIds: true,
+    });
+    const follow = await this.userEntity.findOne({
+      where: { id: followId },
+      loadRelationIds: true,
+    });
+    try {
+      follow.fans = follow.fans.filter((fan) => fan.id !== fans.id);
+      await this.userEntity.save(follow);
+      return true;
+    } catch (e) {
+      return e;
+    }
+  }
 }

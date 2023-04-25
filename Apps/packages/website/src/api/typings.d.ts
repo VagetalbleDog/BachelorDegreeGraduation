@@ -68,6 +68,13 @@ declare namespace API {
     success: boolean;
   };
 
+  type FollowUserDTO = {
+    /** 粉丝id */
+    fansId: number;
+    /** 被关注的人id */
+    followId: number;
+  };
+
   type SearchReqDTO = {
     /** 搜索内容 */
     search: string;

@@ -20,3 +20,9 @@ export class UserLoginDTO {
   @ApiProperty({ description: "密码" })
   password: string;
 }
+export class FollowUserDTO {
+  @ApiProperty({ description: "粉丝id" })
+  fansId: number;
+  @ApiProperty({ description: "被关注的人id" })
+  followId: number;
+}

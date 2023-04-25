@@ -185,6 +185,47 @@ export const useAppControl = () => {
         })
         .catch((e) => console.error(e));
     };
+    /**
+     * 取消关注用户
+     */
+    static unfollowUser = async (fansId: number, followId: number) => {
+      api.User.UserControllerUnFollowUser(
+        {
+          fansId,
+          followId,
+        },
+        {
+          headers: {
+            authorization: localStorage.getItem("userKey"), // 添加请求头
+          },
+        }
+      ).then((res) => {
+        if (res.code === 200) {
+          message.success("取消关注成功");
+        } else {
+          message.error("出了一点问题，请前往控制台查看");
+        }
+      });
+    };
+    static followUser = async (fansId: number, followId: number) => {
+      api.User.UserControllerFollowUser(
+        {
+          fansId,
+          followId,
+        },
+        {
+          headers: {
+            authorization: localStorage.getItem("userKey"), // 添加请求头
+          },
+        }
+      ).then((res) => {
+        if (res.code === 200) {
+          message.success("关注成功");
+        } else {
+          message.error("出了一点问题，请前往控制台查看");
+        }
+      });
+    };
     // 计算属性
     static computedState = {
       /**

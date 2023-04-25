@@ -56,6 +56,12 @@ const InfoPane: FC<Iprops> = ({ userInfo }) => {
                 <TagColor key={i.category} category={i.category} />
               ))}
           </Descriptions.Item>
+          <Descriptions.Item label="关注数">
+            {userInfo.follows?.length}
+          </Descriptions.Item>
+          <Descriptions.Item label="粉丝数">
+            {userInfo.fans?.length}
+          </Descriptions.Item>
         </Descriptions>
       </div>
       <div>

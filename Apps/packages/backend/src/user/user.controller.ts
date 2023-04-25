@@ -20,7 +20,7 @@ import {
 } from "@nestjs/swagger";
 import { AuthGuard } from "src/auth/auth.guard";
 import { Roles } from "src/auth/role.decorator";
-import { UserLoginDTO, UserRegsiterDTO } from "./user.dto";
+import { FollowUserDTO, UserLoginDTO, UserRegsiterDTO } from "./user.dto";
 import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 
@@ -118,5 +118,47 @@ export class UserController {
       code: 200,
       data: userFullInfo,
     };
+  }
+  /**
+   * 关注用户
+   */
+  @Roles("login")
+  @Post("/follow")
+  @HttpCode(201)
+  @ApiBody({ type: FollowUserDTO, description: "关注用户DTO" })
+  async followUser(@Body() { fansId, followId }) {
+    const res = await this.userService.followUser(fansId, followId);
+    if (res === true) {
+      return {
+        code: 200,
+        message: "success",
+      };
+    } else {
+      return {
+        code: 500,
+        error: res,
+      };
+    }
+  }
+  /**
+   * 取消关注用户
+   */
+  @Roles("login")
+  @Post("/unfollow")
+  @HttpCode(201)
+  @ApiBody({ type: FollowUserDTO, description: "关注用户DTO" })
+  async unFollowUser(@Body() { fansId, followId }) {
+    const res = await this.userService.unfollow(fansId, followId);
+    if (res === true) {
+      return {
+        code: 200,
+        message: "success",
+      };
+    } else {
+      return {
+        code: 500,
+        error: res,
+      };
+    }
   }
 }
