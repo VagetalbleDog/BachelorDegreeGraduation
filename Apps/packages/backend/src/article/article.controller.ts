@@ -23,6 +23,7 @@ import {
   ArticleEditOrCreateReqDTO,
   ArticleResDTO,
   ArtilceDetailResDTO,
+  commentDto,
   ExecutionResDTO,
   likeDto,
   SearchReqDTO,
@@ -219,4 +220,17 @@ export class ArticleController {
   /**
    * 评论文章
    */
+  @Post("/comment")
+  @HttpCode(201)
+  @ApiBody({
+    type: commentDto,
+    description: "评论内容",
+  })
+  async comment(@Body() { comment }) {
+    const res = await this.articleService.addComment(comment);
+    return {
+      code: 201,
+      res,
+    };
+  }
 }

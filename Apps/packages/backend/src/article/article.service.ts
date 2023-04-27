@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { CommentEntity } from "src/comment/comment.entity";
 import { UserEntity } from "src/user/user.entity";
 import { Like, Repository } from "typeorm";
 import { ArticleEntity } from "./article.entity";
@@ -9,7 +10,9 @@ export class ArticleService {
     @InjectRepository(ArticleEntity)
     private articleEntity: Repository<ArticleEntity>,
     @InjectRepository(UserEntity)
-    private userService: Repository<UserEntity>
+    private userService: Repository<UserEntity>,
+    @InjectRepository(CommentEntity)
+    private commentService: Repository<CommentEntity>
   ) {}
   /**
    * 查询所有文章
@@ -168,6 +171,17 @@ export class ArticleService {
       return true;
     } catch (e) {
       return e;
+    }
+  }
+  /**
+   * 评论文章
+   */
+  async addComment(comment: CommentEntity) {
+    try {
+      const res = await this.commentService.insert(comment);
+      return { id: res.identifiers[0].id };
+    } catch (e) {
+      return false;
     }
   }
 }
