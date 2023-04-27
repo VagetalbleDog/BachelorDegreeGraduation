@@ -20,7 +20,7 @@ const Articles: FC<Iprops> = ({ articles, type, self }) => {
   const { Title } = Typography;
   const [page, setPage] = useState<number>(1);
   const showArticle = useMemo(() => {
-    return articles.slice((page - 1) * 4, page * 4);
+    return articles.slice((page - 1) * 5, page * 5);
   }, [page, articles]);
   return (
     <div className={styles.articleCtn}>
@@ -41,19 +41,6 @@ const Articles: FC<Iprops> = ({ articles, type, self }) => {
               <h4 className={styles.articleItemTitle}>{i.title}</h4>
               <div className={styles.articleItemDesc}>{i.desc}</div>
             </Link>
-            <footer className={styles.articleItemFooter}>
-              <span>
-                <LikeOutlined className={styles.actionIcon} />
-                &nbsp;
-              </span>
-              <span>
-                <HeartOutlined className={styles.actionIcon} />
-                &nbsp;
-              </span>
-              <span>
-                <CommentOutlined />
-              </span>
-            </footer>
           </div>
         ))}
         {isEmpty(showArticle) && (
@@ -68,7 +55,7 @@ const Articles: FC<Iprops> = ({ articles, type, self }) => {
         size="small"
         className={styles.pagination}
         onChange={setPage}
-        pageSize={4}
+        pageSize={5}
         current={page}
         total={articles.length}
         showSizeChanger={false}
