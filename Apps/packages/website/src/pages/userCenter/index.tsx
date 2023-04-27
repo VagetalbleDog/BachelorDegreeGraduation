@@ -40,7 +40,6 @@ const UserCenter: FC<Iprops> = () => {
       return;
     }
     if (userInfo.id === localUserInfo.id) {
-      console.log(1);
       setFollowState(FollowState.self);
       return;
     }

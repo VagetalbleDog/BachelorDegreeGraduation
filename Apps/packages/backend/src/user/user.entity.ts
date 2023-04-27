@@ -91,7 +91,6 @@ export class UserEntity {
     type: () => [ArticleEntity],
   })
   @ManyToMany(() => ArticleEntity, (artcile) => artcile.likedBy)
-  @JoinTable()
   likedArticles: ArticleEntity[];
 
   @ApiProperty({
@@ -100,7 +99,6 @@ export class UserEntity {
     type: () => [ArticleEntity],
   })
   @ManyToMany(() => ArticleEntity, (article) => article.collectBy)
-  @JoinTable()
   collectArticles: ArticleEntity[];
 
   @ApiProperty({

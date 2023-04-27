@@ -32,6 +32,21 @@ export async function ArticleControllerFindDetailById(
   });
 }
 
+/** 此处后端没有提供注释 POST /article/collect */
+export async function ArticleControllerCollectArticle(
+  body: API.likeDto,
+  options?: { [key: string]: any },
+) {
+  return request<any>(`${api}/article/collect`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** 此处后端没有提供注释 POST /article/create */
 export async function ArticleControllerCreateArticle(
   body: API.ArticleEditOrCreateReqDTO,
@@ -76,12 +91,42 @@ export async function ArticleControllerEditArticle(
   });
 }
 
+/** 此处后端没有提供注释 POST /article/like */
+export async function ArticleControllerLikeArticle(
+  body: API.likeDto,
+  options?: { [key: string]: any },
+) {
+  return request<any>(`${api}/article/like`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** 此处后端没有提供注释 POST /article/search */
 export async function ArticleControllerSearch(
   body: API.SearchReqDTO,
   options?: { [key: string]: any },
 ) {
   return request<API.ArticleResDTO>(`${api}/article/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 此处后端没有提供注释 POST /article/unCollect */
+export async function ArticleControllerUnCollect(
+  body: API.likeDto,
+  options?: { [key: string]: any },
+) {
+  return request<any>(`${api}/article/unCollect`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -207,6 +207,11 @@ export const useAppControl = () => {
         }
       });
     };
+    /**
+     * 关注用户
+     * @param fansId 关注者id
+     * @param followId 被关注者id
+     */
     static followUser = async (fansId: number, followId: number) => {
       api.User.UserControllerFollowUser(
         {
@@ -226,6 +231,61 @@ export const useAppControl = () => {
         }
       });
     };
+    /**
+     * 点赞文章
+     * @param userId
+     * @param articleId
+     */
+    static likeArticle = async (userId: number, articleId: number) => {
+      api.Article.ArticleControllerLikeArticle({
+        userId,
+        articleId,
+      }).then((res) => {
+        if (res.code === 200) {
+          message.success("点赞成功");
+        } else {
+          message.error("出了一点问题，请前往控制台查看");
+          console.log(res);
+        }
+      });
+    };
+    /**
+     * 收藏文章
+     * @param userId
+     * @param articleId
+     */
+    static collectArticle = async (userId: number, articleId: number) => {
+      api.Article.ArticleControllerCollectArticle({
+        userId,
+        articleId,
+      }).then((res) => {
+        if (res.code === 200) {
+          message.success("收藏成功");
+        } else {
+          message.error("出了一点问题，请前往控制台查看");
+          console.log(res);
+        }
+      });
+    };
+    /**
+     * 取消收藏文章
+     * @param userId
+     * @param articleId
+     */
+    static unCollect = async (userId: number, articleId: number) => {};
+    /**
+     * 评论文章
+     * @param fromId 评论用户
+     * @param toId 被评论用户
+     * @param articleId 文章id
+     * @param content 评论内容
+     */
+    static comment = async (
+      fromId: number,
+      toId: number,
+      articleId: number,
+      content: string
+    ) => {};
     // 计算属性
     static computedState = {
       /**

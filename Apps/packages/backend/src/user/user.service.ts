@@ -55,9 +55,9 @@ export class UserService {
       relations: [
         "collectArticles",
         "likedArticles",
-        "articles",
-        "fans",
         "follows",
+        "fans",
+        "articles",
       ],
     });
     return user;
@@ -68,11 +68,23 @@ export class UserService {
   async followUser(fansId: number, followId: number) {
     const fans = await this.userEntity.findOne({
       where: { id: fansId },
-      loadRelationIds: true,
+      relations: [
+        "collectArticles",
+        "likedArticles",
+        "follows",
+        "fans",
+        "articles",
+      ],
     });
     const follow = await this.userEntity.findOne({
       where: { id: followId },
-      loadRelationIds: true,
+      relations: [
+        "collectArticles",
+        "likedArticles",
+        "follows",
+        "fans",
+        "articles",
+      ],
     });
     try {
       follow.fans.push(fans);
@@ -88,11 +100,23 @@ export class UserService {
   async unfollow(fansId: number, followId: number) {
     const fans = await this.userEntity.findOne({
       where: { id: fansId },
-      loadRelationIds: true,
+      relations: [
+        "collectArticles",
+        "likedArticles",
+        "follows",
+        "fans",
+        "articles",
+      ],
     });
     const follow = await this.userEntity.findOne({
       where: { id: followId },
-      loadRelationIds: true,
+      relations: [
+        "collectArticles",
+        "likedArticles",
+        "follows",
+        "fans",
+        "articles",
+      ],
     });
     try {
       follow.fans = follow.fans.filter((fan) => fan.id !== fans.id);

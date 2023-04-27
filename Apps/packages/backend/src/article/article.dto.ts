@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { CommentEntity } from "src/comment/comment.entity";
 import { ArticleEntity, CategoryType } from "./article.entity";
 
 /**
@@ -19,6 +20,19 @@ export class ArticleEditOrCreateReqDTO {
   id: number;
   @ApiProperty({ type: ArticleEntity })
   article: ArticleEntity;
+}
+export class likeDto {
+  @ApiProperty({ description: "用户id" })
+  userId: number;
+  @ApiProperty({ description: "文章id" })
+  articleId: number;
+}
+export class commentDto {
+  @ApiProperty({
+    description: "评论",
+    type: CommentEntity,
+  })
+  comment: CommentEntity;
 }
 /**
  * response

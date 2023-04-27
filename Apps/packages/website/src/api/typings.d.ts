@@ -75,6 +75,13 @@ declare namespace API {
     followId: number;
   };
 
+  type likeDto = {
+    /** 用户id */
+    userId: number;
+    /** 文章id */
+    articleId: number;
+  };
+
   type SearchReqDTO = {
     /** 搜索内容 */
     search: string;
@@ -99,7 +106,7 @@ declare namespace API {
     /** 社区名 */
     nickname: string;
     /** 职业 */
-    work: number;
+    work: 1 | 2 | 3 | 4 | 5 | 6 | 7;
     /** 个人描述 */
     selfDesc: string;
     /** 感兴趣领域 */

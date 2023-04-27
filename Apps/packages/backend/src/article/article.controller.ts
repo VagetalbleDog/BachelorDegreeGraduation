@@ -24,6 +24,7 @@ import {
   ArticleResDTO,
   ArtilceDetailResDTO,
   ExecutionResDTO,
+  likeDto,
   SearchReqDTO,
 } from "./article.dto";
 import { ArticleEntity } from "./article.entity";
@@ -155,4 +156,67 @@ export class ArticleController {
       res,
     };
   }
+  /**
+   * 点赞文章
+   */
+  @Post("/like")
+  @HttpCode(201)
+  @ApiBody({ type: likeDto, description: "" })
+  async likeArticle(@Body() { userId, articleId }) {
+    const res = await this.articleService.likeArticle(userId, articleId);
+    if (res === true) {
+      return {
+        code: 200,
+        message: "success",
+      };
+    } else {
+      return {
+        code: 500,
+        error: res,
+      };
+    }
+  }
+  /**
+   * 收藏文章
+   */
+  @Post("/collect")
+  @HttpCode(201)
+  @ApiBody({ type: likeDto, description: "" })
+  async collectArticle(@Body() { userId, articleId }) {
+    const res = await this.articleService.collectArticle(userId, articleId);
+    if (res === true) {
+      return {
+        code: 200,
+        message: "success",
+      };
+    } else {
+      return {
+        code: 500,
+        error: res,
+      };
+    }
+  }
+  /**
+   * 取消收藏文章
+   */
+  @Post("/unCollect")
+  @HttpCode(201)
+  @ApiBody({ type: likeDto, description: "" })
+  async unCollect(@Body() { userId, articleId }) {
+    const res = await this.articleService.unCollect(userId, articleId);
+    if (res === true) {
+      return {
+        code: 200,
+        message: "success",
+      };
+    } else {
+      return {
+        code: 500,
+        error: res,
+      };
+    }
+  }
+  /**
+   * 评论文章
+   */
 }

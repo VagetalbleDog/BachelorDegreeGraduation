@@ -1,12 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UserEntity } from "src/user/user.entity";
 import { Like, Repository } from "typeorm";
 import { ArticleEntity } from "./article.entity";
 @Injectable()
 export class ArticleService {
   constructor(
     @InjectRepository(ArticleEntity)
-    private articleEntity: Repository<ArticleEntity>
+    private articleEntity: Repository<ArticleEntity>,
+    @InjectRepository(UserEntity)
+    private userService: Repository<UserEntity>
   ) {}
   /**
    * 查询所有文章
@@ -84,6 +87,87 @@ export class ArticleService {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+  /**
+   * 点赞文章
+   */
+  async likeArticle(userId: number, articleId: number) {
+    const user = await this.userService.findOne({
+      where: { id: userId },
+      relations: [
+        "collectArticles",
+        "likedArticles",
+        "follows",
+        "fans",
+        "articles",
+      ],
+    });
+    const article = await this.articleEntity.findOne({
+      where: { id: articleId },
+      relations: ["likedBy", "author", "collectBy", "comments"],
+    });
+    try {
+      article.likedBy.push(user);
+      await this.articleEntity.save(article);
+      return true;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
+  }
+  /**
+   * 收藏文章
+   */
+  async collectArticle(userId: number, articleId: number) {
+    const user = await this.userService.findOne({
+      where: { id: userId },
+      relations: [
+        "collectArticles",
+        "likedArticles",
+        "follows",
+        "fans",
+        "articles",
+      ],
+    });
+    const article = await this.articleEntity.findOne({
+      where: { id: articleId },
+      relations: ["likedBy", "author", "collectBy", "comments"],
+    });
+    try {
+      article.collectBy.push(user);
+      await this.articleEntity.save(article);
+      return true;
+    } catch (e) {
+      return e;
+    }
+  }
+  /**
+   * 取消收藏文章
+   */
+  async unCollect(userId: number, articleId: number) {
+    const user = await this.userService.findOne({
+      where: { id: userId },
+      relations: [
+        "collectArticles",
+        "likedArticles",
+        "follows",
+        "fans",
+        "articles",
+      ],
+    });
+    const article = await this.articleEntity.findOne({
+      where: { id: articleId },
+      relations: ["likedBy", "author", "collectBy", "comments"],
+    });
+    try {
+      user.collectArticles = user.collectArticles.filter(
+        (art) => art.id !== article.id
+      );
+      await this.userService.save(user);
+      return true;
+    } catch (e) {
+      return e;
     }
   }
 }

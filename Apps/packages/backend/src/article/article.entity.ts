@@ -1,6 +1,8 @@
 import {
+  BaseEntity,
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
@@ -28,7 +30,7 @@ export const CategoryTextMap = {
   [CategoryType.MAINTAIN]: "运维",
 };
 @Entity({ name: "Article" })
-export class ArticleEntity {
+export class ArticleEntity extends BaseEntity {
   @ApiProperty({
     default: 2,
     description: "文章id",
@@ -77,6 +79,7 @@ export class ArticleEntity {
     description: "点赞的用户",
   })
   @ManyToMany(() => UserEntity, (user) => user.likedArticles)
+  @JoinTable()
   likedBy: UserEntity[];
 
   @ApiProperty({
@@ -84,6 +87,7 @@ export class ArticleEntity {
     description: "收藏的用户",
   })
   @ManyToMany(() => UserEntity, (user) => user.collectArticles)
+  @JoinTable()
   collectBy: UserEntity[];
 
   @ApiProperty({
