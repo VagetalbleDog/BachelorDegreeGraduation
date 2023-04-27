@@ -170,7 +170,13 @@ const ArticleDetail: FC<IProps> = () => {
           </Button>
           {already.collect ? (
             <Button shape="round" onClick={() => {}}>
-              <HeartFilled className={styles.buttonIcon} />
+              <HeartFilled
+                onClick={() => {
+                  unCollect(userInfo?.id, detailData?.id);
+                  setAlready({ collect: false });
+                }}
+                className={styles.buttonIcon}
+              />
             </Button>
           ) : (
             <Button

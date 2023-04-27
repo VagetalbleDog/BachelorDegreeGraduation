@@ -272,7 +272,19 @@ export const useAppControl = () => {
      * @param userId
      * @param articleId
      */
-    static unCollect = async (userId: number, articleId: number) => {};
+    static unCollect = async (userId: number, articleId: number) => {
+      api.Article.ArticleControllerUnCollect({
+        userId,
+        articleId,
+      }).then((res) => {
+        if (res.code === 200) {
+          message.success("取消收藏成功");
+        } else {
+          message.error("出了一点问题，请前往控制台查看");
+          console.log(res);
+        }
+      });
+    };
     /**
      * 评论文章
      * @param fromId 评论用户
