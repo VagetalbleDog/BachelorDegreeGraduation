@@ -13,9 +13,10 @@ import styles from "../index.module.less";
 interface Iprops {
   articles: API.ArticleEntity[];
   type: "my" | "collect" | "liked";
+  self: boolean;
 }
 
-const Articles: FC<Iprops> = ({ articles, type }) => {
+const Articles: FC<Iprops> = ({ articles, type, self }) => {
   const { Title } = Typography;
   const [page, setPage] = useState<number>(1);
   const showArticle = useMemo(() => {
@@ -24,7 +25,8 @@ const Articles: FC<Iprops> = ({ articles, type }) => {
   return (
     <div className={styles.articleCtn}>
       <Title level={4} style={{ marginTop: 0 }}>
-        我的{type === "my" ? "文章" : type === "collect" ? "收藏" : "点赞"}
+        {self ? "我" : "他"}的
+        {type === "my" ? "文章" : type === "collect" ? "收藏" : "点赞"}
       </Title>
       <div className={styles.articleListCtn}>
         {showArticle.map((i) => (

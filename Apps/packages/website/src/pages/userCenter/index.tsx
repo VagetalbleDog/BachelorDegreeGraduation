@@ -8,6 +8,7 @@ import { FC, memo, useContext, useEffect, useMemo, useState } from "react";
 import { history, useParams } from "umi";
 import Articles from "./components/articles";
 import InfoPane from "./components/infoPane";
+import UserList from "./components/userList";
 import styles from "./index.module.less";
 interface Iprops {}
 const enum FollowState {
@@ -72,7 +73,7 @@ const UserCenter: FC<Iprops> = () => {
             <TagColor work category={userInfo.work} />
           </div>
           {followState === FollowState.self && <></>}
-          {followState === FollowState.fans && <Tag>已经成为你的粉丝</Tag>}
+          {followState === FollowState.fans && <Tag>他是你的粉丝</Tag>}
           {followState === FollowState.followed && (
             <Button
               type="primary"
@@ -108,14 +109,47 @@ const UserCenter: FC<Iprops> = () => {
             <Tabs.TabPane tab="个人信息" key="info">
               <InfoPane userInfo={userInfo} />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="我的文章" key="my">
-              <Articles type="my" articles={userInfo.articles} />
+            <Tabs.TabPane
+              tab={`${followState === FollowState.self ? "我" : "他"}的文章`}
+              key="my"
+            >
+              <Articles
+                self={followState === FollowState.self}
+                type="my"
+                articles={userInfo.articles}
+              />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="我点赞的" key="loved">
-              <Articles type="liked" articles={userInfo.likedArticles} />
+            <Tabs.TabPane
+              tab={`${followState === FollowState.self ? "我" : "他"}的点赞`}
+              key="loved"
+            >
+              <Articles
+                self={followState === FollowState.self}
+                type="liked"
+                articles={userInfo.likedArticles}
+              />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="我收藏的" key="collect">
-              <Articles type="collect" articles={userInfo.collectArticles} />
+            <Tabs.TabPane
+              tab={`${followState === FollowState.self ? "我" : "他"}的收藏`}
+              key="collect"
+            >
+              <Articles
+                self={followState === FollowState.self}
+                type="collect"
+                articles={userInfo.collectArticles}
+              />
+            </Tabs.TabPane>
+            <Tabs.TabPane
+              tab={`${followState === FollowState.self ? "我" : "他"}的关注`}
+              key="follow"
+            >
+              <UserList userlist={userInfo.follows} />
+            </Tabs.TabPane>
+            <Tabs.TabPane
+              tab={`${followState === FollowState.self ? "我" : "他"}的粉丝`}
+              key="fans"
+            >
+              <UserList userlist={userInfo.fans} />
             </Tabs.TabPane>
           </Tabs>
         </div>

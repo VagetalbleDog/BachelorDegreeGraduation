@@ -109,3 +109,44 @@
 .actionIcon {
   cursor: pointer;
 }
+.userListCtn {
+  padding: 16px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.cardCtn {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.cardLine1 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+.cardTag {
+  font-size: 14px;
+  color: #8a919f;
+  font-weight: 400;
+}
+.desc {
+  font-size: 14px;
+  color: #8a919f;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  width: 280px;
+}
+.descCtn {
+  display: flex;
+  align-items: center;
+}
+.card:hover {
+  cursor: pointer;
+  transform: translate(-5px, -5px);
+  transition: 400ms;
+  box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.2);
+}
