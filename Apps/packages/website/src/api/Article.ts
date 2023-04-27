@@ -47,6 +47,21 @@ export async function ArticleControllerCollectArticle(
   });
 }
 
+/** 此处后端没有提供注释 POST /article/comment */
+export async function ArticleControllerComment(
+  body: API.commentDto,
+  options?: { [key: string]: any },
+) {
+  return request<any>(`${api}/article/comment`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** 此处后端没有提供注释 POST /article/create */
 export async function ArticleControllerCreateArticle(
   body: API.ArticleEditOrCreateReqDTO,

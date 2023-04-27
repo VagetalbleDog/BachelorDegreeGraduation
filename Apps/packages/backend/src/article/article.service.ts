@@ -48,11 +48,20 @@ export class ArticleService {
    * @return Promise<ArticleEntity>
    */
   async findDetailById(id: number) {
-    const res = await this.articleEntity.find({
+    const res = await this.articleEntity.findOne({
       where: { id: id },
       relations: ["author", "comments", "likedBy", "collectBy"],
     });
-    return res[0];
+    const comments = [];
+    for (const comment of res.comments) {
+      const detailComment = await this.commentService.findOne({
+        where: { id: comment.id },
+        relations: ["article", "from", "to"],
+      });
+      comments.push(detailComment);
+    }
+    res.comments = comments;
+    return res;
   }
   /**
    * 添加新文章

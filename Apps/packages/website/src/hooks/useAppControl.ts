@@ -281,11 +281,28 @@ export const useAppControl = () => {
      * @param content 评论内容
      */
     static comment = async (
-      fromId: number,
-      toId: number,
-      articleId: number,
+      from: API.UserEntity,
+      to: API.UserEntity,
+      article: API.ArticleEntity,
       content: string
-    ) => {};
+    ) => {
+      const comment = {
+        content,
+        article,
+        to,
+        from,
+      } as API.CommentEntity;
+      const res = await api.Article.ArticleControllerComment({
+        comment,
+      });
+      if (res.res) {
+        message.success("评论成功！");
+        return true;
+      } else {
+        message.error("出了一点问题");
+        return false;
+      }
+    };
     // 计算属性
     static computedState = {
       /**
@@ -331,7 +348,7 @@ export const useAppControl = () => {
        * @param id 文章id
        * @returns
        */
-      articleDetail: (id: number | string) => {
+      articleDetail: (id: number | string, needUpdate?: boolean) => {
         const [data, setData] = useState<API.ArticleEntity>(
           {} as API.ArticleEntity
         );
@@ -344,7 +361,7 @@ export const useAppControl = () => {
             setData(res?.data);
             AppAction.Base.setGlobalState({ loadingDetail: false });
           });
-        }, [id]);
+        }, [id, needUpdate]);
         return data;
       },
       /**

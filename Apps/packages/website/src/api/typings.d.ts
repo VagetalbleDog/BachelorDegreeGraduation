@@ -50,6 +50,11 @@ declare namespace API {
     data: ArticleEntity;
   };
 
+  type commentDto = {
+    /** 评论 */
+    comment: CommentEntity;
+  };
+
   type CommentEntity = {
     /** 评论id */
     id: number;
@@ -106,7 +111,7 @@ declare namespace API {
     /** 社区名 */
     nickname: string;
     /** 职业 */
-    work: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+    work: number;
     /** 个人描述 */
     selfDesc: string;
     /** 感兴趣领域 */

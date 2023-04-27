@@ -8,6 +8,7 @@
     "start": "pnpm --parallel -F './packages/*' start"
   },
   "dependencies": {
+    "@ant-design/compatible": "^5.1.1",
     "@ant-design/icons": "^5.0.1",
     "antd": "^5.2.3",
     "concurrently": "^7.6.0",
