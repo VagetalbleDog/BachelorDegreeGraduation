@@ -126,4 +126,10 @@ export class UserService {
       return e;
     }
   }
+  /**
+   * 查找所有用户
+   */
+  async findAll() {
+    return this.userEntity.find();
+  }
 }

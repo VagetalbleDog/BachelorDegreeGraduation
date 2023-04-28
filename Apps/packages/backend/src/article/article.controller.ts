@@ -11,12 +11,14 @@ import {
 import { JwtService } from "@nestjs/jwt";
 import {
   ApiBody,
+  ApiHeader,
   ApiParam,
   ApiProperty,
   ApiQuery,
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
+import { RecommendService } from "src/recommendation/recommend.service";
 import { UserEntity } from "src/user/user.entity";
 import { deduplication, sleep } from "src/utils";
 import {
@@ -36,7 +38,8 @@ import { ArticleService } from "./article.service";
 export class ArticleController {
   constructor(
     private readonly articleService: ArticleService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    private readonly recommendService: RecommendService
   ) {}
   @Get()
   @HttpCode(200)
@@ -59,7 +62,20 @@ export class ArticleController {
       data: [...res],
     };
   }
-
+  @Get("/recommend/:userId")
+  @HttpCode(200)
+  @ApiResponse({ type: ArticleResDTO })
+  @ApiParam({ name: "userId", description: "用户ID" })
+  /**
+   * 根据用户爱好个性化推荐
+   */
+  async recommend(@Param() { userId }) {
+    const res = await this.recommendService.recommendArticle(userId);
+    return {
+      code: 200,
+      data: [...res],
+    };
+  }
   @Post("/search")
   @HttpCode(200)
   @ApiBody({
