@@ -154,6 +154,10 @@ const ArticleDetail: FC<IProps> = () => {
           <Button
             shape="round"
             onClick={() => {
+              if (!userInfo?.id) {
+                message.error("登录后才能点赞哦~");
+                return;
+              }
               if (already.like) {
                 message.info("您已经点赞过了");
                 return;
@@ -182,6 +186,10 @@ const ArticleDetail: FC<IProps> = () => {
             <Button
               shape="round"
               onClick={() => {
+                if (!userInfo?.id) {
+                  message.error("登录后才能收藏哦~");
+                  return;
+                }
                 collectArticle(userInfo?.id, detailData?.id);
                 setAlready({ collect: true });
               }}
@@ -274,6 +282,10 @@ const ArticleDetail: FC<IProps> = () => {
         destroyOnClose
         onOk={() => {
           const content = commentForm.getFieldValue("content");
+          if (!content) {
+            message.info("评论内容不能为空");
+            return;
+          }
           comment(userInfo, reployTo, detailData, content).then((res) => {
             if (res) {
               setNeedUpdate(!needUpdate);
@@ -304,7 +316,7 @@ const ArticleDetail: FC<IProps> = () => {
           )}
         </Typography.Title>
         <Form form={commentForm} name="comment">
-          <Form.Item name="content">
+          <Form.Item name="content" required>
             <Input.TextArea
               placeholder="友好的评论别人更愿意回复你哦~"
               rows={3}

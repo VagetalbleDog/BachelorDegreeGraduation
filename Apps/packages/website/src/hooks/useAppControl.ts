@@ -298,6 +298,10 @@ export const useAppControl = () => {
       article: API.ArticleEntity,
       content: string
     ) => {
+      if (isEmpty(from)) {
+        message.error("登录后才能评论哦~");
+        return false;
+      }
       const comment = {
         content,
         article,
