@@ -334,13 +334,26 @@ export const useAppControl = () => {
        * @param search 搜索词
        * @returns 文章列表
        */
-      articleList: (category: number, search: string) => {
+      articleList: (
+        category: number,
+        search: string,
+        userInfo: API.UserEntity
+      ) => {
         const [data, setData] = useState<API.ArticleEntity[]>([]);
         useEffect(() => {
           if (category === CategoryType.ALL) {
             category = undefined as any;
           }
           AppAction.Base.setGlobalState({ loadingArticle: true });
+          if (category === CategoryType.RECOMMEND && userInfo.id) {
+            api.Article.ArticleControllerRecommend({
+              userId: userInfo.id,
+            }).then(({ data }) => {
+              setData(data);
+              AppAction.Base.setGlobalState({ loadingArticle: false });
+            });
+            return;
+          }
           if (!isEmpty(search)) {
             api.Article.ArticleControllerSearch({ search, category }).then(
               ({ data }) => {
@@ -350,13 +363,15 @@ export const useAppControl = () => {
             );
             return;
           }
-          api.Article.ArticleControllerFindAll({ category }).then(
-            ({ data }) => {
-              setData(data);
-              AppAction.Base.setGlobalState({ loadingArticle: false });
-            }
-          );
-        }, [category, search]);
+          if (category !== CategoryType.RECOMMEND) {
+            api.Article.ArticleControllerFindAll({ category }).then(
+              ({ data }) => {
+                setData(data);
+                AppAction.Base.setGlobalState({ loadingArticle: false });
+              }
+            );
+          }
+        }, [category, search, userInfo]);
         return data;
       },
       /**

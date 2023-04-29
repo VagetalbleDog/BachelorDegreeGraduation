@@ -20,10 +20,18 @@ const Home: FC = () => {
   const [search, setSearch] = useState<string>("");
   // hooks
   const { AppAction, formInitValue } = useContext(AppControlContext);
-  const articles = AppAction.computedState.articleList(category, search);
   const isLogin = AppAction.computedState.isLogin();
   const userInfo = AppAction.computedState.userInfo();
+  const articles = AppAction.computedState.articleList(
+    category,
+    search,
+    userInfo
+  );
   const isAdmin = AppAction.computedState.isAdmin(userInfo);
+  // effect
+  useEffect(() => {
+    isLogin && setCategory(CategoryType.RECOMMEND);
+  }, [isLogin]);
   return (
     <div>
       <header className={styles.header}>
@@ -116,7 +124,7 @@ const Home: FC = () => {
         </div>
         <div className={styles.navBar}></div>
       </header>
-      <CategoryBar val={category} setCategory={setCategory} />
+      <CategoryBar val={category} setCategory={setCategory} login={isLogin} />
       <ArticleList articles={articles} />
     </div>
   );
@@ -125,11 +133,14 @@ const Home: FC = () => {
 interface ICategoryBarProps {
   setCategory: Function;
   val: CategoryType;
+  login: boolean;
 }
 const CategoryBar: FC<ICategoryBarProps> = React.memo(
-  ({ setCategory, val }) => {
+  ({ setCategory, val, login }) => {
     const { Item } = Menu;
-    const categorys = enumToArray(CategoryType);
+    const categorys = login
+      ? enumToArray(CategoryType)
+      : enumToArray(CategoryType).slice(1);
     return (
       <Menu
         className={styles.sideMenu}

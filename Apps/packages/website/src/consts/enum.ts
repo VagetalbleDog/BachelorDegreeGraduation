@@ -1,5 +1,5 @@
 export enum CategoryType {
-  ALL = 0,
+  ALL = 8,
   FRONTEND = 1,
   BACKEND = 2,
   CLIENT = 3,
@@ -7,9 +7,11 @@ export enum CategoryType {
   IOS = 5,
   QA = 6,
   MAINTAIN = 7,
+  RECOMMEND = 0,
 }
 export const CategoryTextMap = {
-  [CategoryType.ALL]: "为您推荐",
+  [CategoryType.ALL]: "全部",
+  [CategoryType.RECOMMEND]: "为您推荐",
   [CategoryType.FRONTEND]: "前端",
   [CategoryType.BACKEND]: "后端",
   [CategoryType.CLIENT]: "客户端",

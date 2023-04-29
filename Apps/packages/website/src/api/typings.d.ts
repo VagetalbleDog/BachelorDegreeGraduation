@@ -14,6 +14,11 @@ declare namespace API {
     id: any;
   };
 
+  type ArticleControllerRecommendParams = {
+    /** 用户ID */
+    userId: any;
+  };
+
   type ArticleEditOrCreateReqDTO = {
     id: number;
     article: ArticleEntity;
