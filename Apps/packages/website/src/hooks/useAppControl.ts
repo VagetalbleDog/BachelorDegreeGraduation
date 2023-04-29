@@ -1,5 +1,5 @@
 import api from "@/api";
-import { CategoryType } from "@/consts/enum";
+import { ActionType, CategoryType } from "@/consts/enum";
 import { generateFormAssets } from "@/utils";
 import { AppControl } from "@/utils/AppControl";
 import { transformInterestJson } from "@/utils/transformInterestJson";
@@ -318,6 +318,30 @@ export const useAppControl = () => {
         message.error("出了一点问题");
         return false;
       }
+    };
+    /**
+     * 更新用户兴趣矩阵
+     */
+    static updateInterest = async (
+      userId: number,
+      category: CategoryType,
+      actionType: ActionType
+    ) => {
+      if (!userId || !category || !actionType) {
+        return;
+      }
+      api.User.UserControllerUpdateInterest(
+        {
+          userId,
+          category,
+          actionType,
+        },
+        {
+          headers: {
+            authorization: localStorage.getItem("userKey"), // 添加请求头
+          },
+        }
+      ).then((res) => console.log(res));
     };
     // 计算属性
     static computedState = {

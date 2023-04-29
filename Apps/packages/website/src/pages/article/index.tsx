@@ -30,13 +30,15 @@ import {
   LikeOutlined,
 } from "@ant-design/icons";
 import { useSetState } from "ahooks";
+import { ActionType } from "@/consts/enum";
 
 interface IProps {}
 const { Title } = Typography;
 const ArticleDetail: FC<IProps> = () => {
   const id = useParams().id || 1;
   const { AppAction } = useContext(AppControlContext);
-  const { likeArticle, collectArticle, unCollect, comment } = AppAction;
+  const { likeArticle, collectArticle, unCollect, comment, updateInterest } =
+    AppAction;
   const userInfo = AppAction.computedState.userInfo();
   const [showComment, setShow] = useState(false);
   const [needUpdate, setNeedUpdate] = useState(true);
@@ -54,6 +56,7 @@ const ArticleDetail: FC<IProps> = () => {
       return;
     }
     setReployTo(detailData.author);
+    updateInterest(userInfo.id, detailData.category, ActionType.view);
     if (detailData.likedBy?.some((user) => user.id === userInfo.id)) {
       setAlready({ like: true });
     }

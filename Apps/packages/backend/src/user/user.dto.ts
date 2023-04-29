@@ -5,7 +5,11 @@ import { UserEntity } from "./user.entity";
 /**
  * DTO
  */
-
+export const enum ActionType {
+  view = 1,
+  like = 2,
+  collect = 3,
+}
 /**
  * request
  */
@@ -25,4 +29,12 @@ export class FollowUserDTO {
   fansId: number;
   @ApiProperty({ description: "被关注的人id" })
   followId: number;
+}
+export class updateInterestDTO {
+  @ApiProperty({ description: "" })
+  category: CategoryType;
+  @ApiProperty({ description: "行为类型" })
+  actionType: ActionType;
+  @ApiProperty({ description: "用户id" })
+  userId: number;
 }

@@ -99,6 +99,14 @@ declare namespace API {
     category: number;
   };
 
+  type updateInterestDTO = {
+    category: number;
+    /** 行为类型 */
+    actionType: number;
+    /** 用户id */
+    userId: number;
+  };
+
   type UserControllerGetUserInfoByIdParams = {
     /** 用户ID */
     userId: any;

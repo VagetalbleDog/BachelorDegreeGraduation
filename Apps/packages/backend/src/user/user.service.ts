@@ -4,6 +4,8 @@ import { Repository } from "typeorm";
 import { UserEntity } from "./user.entity";
 import * as bcrypt from "bcryptjs";
 import { isEmpty } from "rxjs";
+import { ActionType } from "./user.dto";
+import { CategoryType } from "src/article/article.entity";
 
 @Injectable()
 export class UserService {
@@ -131,5 +133,32 @@ export class UserService {
    */
   async findAll() {
     return this.userEntity.find();
+  }
+  /**
+   * 更新用户兴趣评分矩阵
+   */
+  async updateInterest(
+    category: CategoryType,
+    userId: number,
+    actionType: ActionType,
+    debuff?: boolean
+  ) {
+    const actionTypeScoreMap = {
+      [ActionType.view]: 2,
+      [ActionType.like]: 5,
+      [ActionType.collect]: 10,
+    };
+    const score = actionTypeScoreMap[actionType];
+    const user = await this.getUserDetailInfo(userId);
+    const updated = JSON.parse(user.interestsJson);
+    if (debuff) {
+      updated[category] -= score;
+    } else {
+      updated[category] += score;
+    }
+    const updatedJson = JSON.stringify(updated);
+    user.interestsJson = updatedJson;
+    await this.userEntity.save(user);
+    return true;
   }
 }

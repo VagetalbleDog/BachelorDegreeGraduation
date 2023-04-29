@@ -84,3 +84,18 @@ export async function UserControllerUnFollowUser(
     ...(options || {}),
   });
 }
+
+/** 此处后端没有提供注释 POST /user/updateInterest */
+export async function UserControllerUpdateInterest(
+  body: API.updateInterestDTO,
+  options?: { [key: string]: any },
+) {
+  return request<any>(`${api}/user/updateInterest`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}

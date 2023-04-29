@@ -20,3 +20,8 @@ export const CategoryTextMap = {
   [CategoryType.QA]: "测试",
   [CategoryType.MAINTAIN]: "运维",
 };
+export enum ActionType {
+  view = 1,
+  like = 2,
+  collect = 3,
+}

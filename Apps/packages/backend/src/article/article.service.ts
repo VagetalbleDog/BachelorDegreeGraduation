@@ -1,7 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CommentEntity } from "src/comment/comment.entity";
+import { ActionType } from "src/user/user.dto";
 import { UserEntity } from "src/user/user.entity";
+import { UserService } from "src/user/user.service";
 import { Like, Repository } from "typeorm";
 import { ArticleEntity } from "./article.entity";
 @Injectable()
@@ -12,7 +14,8 @@ export class ArticleService {
     @InjectRepository(UserEntity)
     private userService: Repository<UserEntity>,
     @InjectRepository(CommentEntity)
-    private commentService: Repository<CommentEntity>
+    private commentService: Repository<CommentEntity>,
+    private userDefinedService: UserService
   ) {}
   /**
    * 查询所有文章
@@ -122,6 +125,11 @@ export class ArticleService {
     try {
       article.likedBy.push(user);
       await this.articleEntity.save(article);
+      await this.userDefinedService.updateInterest(
+        article.category,
+        user.id,
+        ActionType.like
+      );
       return true;
     } catch (e) {
       console.log(e);
@@ -149,6 +157,11 @@ export class ArticleService {
     try {
       article.collectBy.push(user);
       await this.articleEntity.save(article);
+      await this.userDefinedService.updateInterest(
+        article.category,
+        user.id,
+        ActionType.collect
+      );
       return true;
     } catch (e) {
       return e;
@@ -177,6 +190,12 @@ export class ArticleService {
         (art) => art.id !== article.id
       );
       await this.userService.save(user);
+      await this.userDefinedService.updateInterest(
+        article.category,
+        user.id,
+        ActionType.collect,
+        true
+      );
       return true;
     } catch (e) {
       return e;

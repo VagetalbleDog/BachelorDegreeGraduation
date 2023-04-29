@@ -20,7 +20,12 @@ import {
 } from "@nestjs/swagger";
 import { AuthGuard } from "src/auth/auth.guard";
 import { Roles } from "src/auth/role.decorator";
-import { FollowUserDTO, UserLoginDTO, UserRegsiterDTO } from "./user.dto";
+import {
+  FollowUserDTO,
+  updateInterestDTO,
+  UserLoginDTO,
+  UserRegsiterDTO,
+} from "./user.dto";
 import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 
@@ -158,6 +163,31 @@ export class UserController {
       return {
         code: 500,
         error: res,
+      };
+    }
+  }
+  /**
+   * 更新用户兴趣矩阵
+   */
+  @Roles("login")
+  @Post("/updateInterest")
+  @HttpCode(201)
+  @ApiBody({ type: updateInterestDTO })
+  async updateInterest(@Body() { actionType, category, userId }) {
+    const res = await this.userService.updateInterest(
+      category,
+      userId,
+      actionType
+    );
+    if (res) {
+      return {
+        code: 200,
+        message: "success",
+      };
+    } else {
+      return {
+        code: 500,
+        message: "failed",
       };
     }
   }
