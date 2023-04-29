@@ -111,13 +111,17 @@ const Home: FC = () => {
             )}
             {isLogin && (
               <>
-                <BellOutlined style={{ fontSize: 24 }} />
                 <img
                   src={
                     avatarIdMap.find((item) => item.id == userInfo?.avatar)?.img
                   }
                   style={{ width: "50px", height: "50px", borderRadius: "50%" }}
                 />
+                <span
+                  style={{ color: "#8a919f", fontSize: 14, fontWeight: 400 }}
+                >
+                  {userInfo.nickname}
+                </span>
               </>
             )}
           </div>

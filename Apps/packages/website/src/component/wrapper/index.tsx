@@ -81,7 +81,6 @@ const Wrapper = ({ children }: any) => {
               )}
               {isLogin && (
                 <>
-                  <BellOutlined style={{ fontSize: 24 }} />
                   <img
                     src={
                       avatarIdMap.find((item) => item.id == userInfo?.avatar)
@@ -93,6 +92,11 @@ const Wrapper = ({ children }: any) => {
                       borderRadius: "50%",
                     }}
                   />
+                  <span
+                    style={{ color: "#8a919f", fontSize: 14, fontWeight: 400 }}
+                  >
+                    {userInfo.nickname}
+                  </span>
                 </>
               )}
             </div>

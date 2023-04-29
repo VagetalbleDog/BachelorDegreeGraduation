@@ -253,7 +253,7 @@ export const barOption = (
         emphasis: {
           focus: "series",
         },
-        data: [10, 6, 7, 2, 1, 0, 4],
+        data: value1,
       },
       {
         name: "点赞",
@@ -262,7 +262,7 @@ export const barOption = (
         emphasis: {
           focus: "series",
         },
-        data: [6, 8, 2, 4, 10, 1, 7],
+        data: value2,
       },
       {
         name: "收藏",
@@ -271,7 +271,7 @@ export const barOption = (
         emphasis: {
           focus: "series",
         },
-        data: [1, 1, 4, 2, 8, 4, 10],
+        data: value3,
       },
     ],
   };
