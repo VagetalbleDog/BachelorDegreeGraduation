@@ -144,7 +144,7 @@ export class UserService {
     debuff?: boolean
   ) {
     const actionTypeScoreMap = {
-      [ActionType.view]: 2,
+      [ActionType.view]: 1,
       [ActionType.like]: 5,
       [ActionType.collect]: 10,
     };

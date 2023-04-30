@@ -82,7 +82,7 @@ const ArticleDetail: FC<IProps> = () => {
                   {detailData.title}
                 </Descriptions.Item>
                 <Descriptions.Item label="文章概要">
-                  {detailData.desc}
+                  {detailData.desc.slice(0, 40) + "..."}
                 </Descriptions.Item>
                 <Descriptions.Item label="文章分类">
                   <TagColor category={detailData.category} />

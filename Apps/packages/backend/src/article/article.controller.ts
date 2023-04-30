@@ -56,7 +56,6 @@ export class ArticleController {
     const res = await (
       await this.articleService.find(query)
     ).sort((a, b) => b.id - a.id);
-    await sleep(300);
     return {
       code: 200,
       data: [...res],

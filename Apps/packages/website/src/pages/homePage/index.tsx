@@ -16,7 +16,9 @@ import { avatarIdMap } from "@/utils/avatarList";
 
 const Home: FC = () => {
   // 页面视图state
-  const [category, setCategory] = useState<CategoryType>(CategoryType.ALL);
+  const [category, setCategory] = useState<CategoryType>(
+    CategoryType.RECOMMEND
+  );
   const [search, setSearch] = useState<string>("");
   // hooks
   const { AppAction, formInitValue } = useContext(AppControlContext);
@@ -31,6 +33,7 @@ const Home: FC = () => {
   // effect
   useEffect(() => {
     isLogin && setCategory(CategoryType.RECOMMEND);
+    !isLogin && setCategory(CategoryType.ALL);
   }, [isLogin]);
   return (
     <div>
